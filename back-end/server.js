@@ -24,7 +24,13 @@ app.use(function(req, res, next) {
 });
 
 mongoose.Promise = global.Promise; 
+// connect to local host
+// mongoose.connect('mongodb://localhost/data/db/');
+
+//connect to mLab
 mongoose.connect('mongodb://Jen:argyle@ds113628.mlab.com:13628/final_project');
+
+
 
 // Log to console any errors or a successful connection.
 const db = mongoose.connection;
