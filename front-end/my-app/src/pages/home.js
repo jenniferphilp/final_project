@@ -14,11 +14,21 @@ class Home extends Component {
             <h1 className="title">This is not a title</h1>
        
          </div>
+         <div>
+            <h1><Link to="/literacy1">Literacy - level 1</Link></h1>
+            <h1><Link to="/literacy2">Literacy - level 2</Link></h1>
+            <h1><Link to="/numeracy1">Numeracy - level 1</Link></h1>
+            <h1><Link to="/numeracy2">Numeracy - level 2</Link></h1>
+            
+            <form className="homePageInput">
+                  <label><h2>Name: </h2></label><input type="text" className="inputSpellPicture" name="student_name"></input>
+                  <label><h2>ID: </h2></label><input type="text" className="inputSpellPicture" name="student_ID"></input>
+           
+                    <button type="submit">Submit</button>
+      </form>
 
-      <h1><Link to="/literacy1">Literacy - level 1</Link></h1>
-      <h1><Link to="/literacy2">Literacy - level 2</Link></h1>
-      <h1><Link to="/numeracy1">Numeracy - level 1</Link></h1>
-      <h1><Link to="/numeracy2">Numeracy - level 2</Link></h1>
+</div>
+       
 </div>         
         )
 

@@ -59,10 +59,12 @@ this.play=this.play.bind(this);
     
 };
 
+componentDidMount(){
+    this.play();
+}
 //TIMER
-play(e, tick){
-    e.preventDefault();
-     this.timer = setInterval(this.tick, 1000);
+play(tick){
+    this.timer = setInterval(this.tick, 1000);
 }
 
   

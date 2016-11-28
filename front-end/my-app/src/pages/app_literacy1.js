@@ -67,7 +67,7 @@ class App extends Component {
     this.tick=this.tick.bind(this);
     this.pause=this.pause.bind(this);
     this.play=this.play.bind(this);
-    this.handleSearch=this.handleSearch.bind(this);
+    this.handleSave=this.handleSave.bind(this);
     this.onChangeName=this.onChangeName.bind(this);
     this.onChangeID=this.onChangeID.bind(this);
   
@@ -75,27 +75,16 @@ class App extends Component {
   };
 
 
-
-handleSearch(e){
+//problem of student saving over and over... put setTimeOut on handleSave
+handleSave(e){
 e.preventDefault();
-axios.post('http://localhost:8080/api/users/', {
-    student_name: this.state.student_name,
-    student_ID: this.state.student_ID
-    })
-// must specify data here from the form... e.target.value
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-
 
 axios.post('http://localhost:8080/api/scores/', {
-    student_ID: this.state.student_ID,
-    //error: duplicate key (foreign key)
+    // student_ID: this.state.student_ID,
+  //this is saved from home page using cookies
     //
     //created at: need timestamp
+    student_ID: "12345",
     gameType: "Literacy 1",
     percent:((this.state.score)/(this.state.numberOfAttempts)*100),
     totalTime: this.state.totalTime
@@ -107,19 +96,26 @@ axios.post('http://localhost:8080/api/scores/', {
   })
   .catch(function (error) {
     console.log(error);
+    alert('You have an error! Please see your teacher')
   });
-}
 
+  //handles "reset" of timer and score, attempts. 
+  this.setState({
+        correct:false,
+        score:0,
+        negativeScore:0,
+        numberOfAttempts:0,
+        // elapsed:0,
+        totalTime:0
+ 
+  })
+}
 
 onChangeName(e){
     this.setState({
         student_name: e.target.value
     })
-    console.log(this.state.student_name)
-    console.log((this.state.score / this.state.numberOfAttempts)*100);
- 
-
-}
+ }
 
 onChangeID(e){
     let id = Number(e.target.value, 10);
@@ -130,14 +126,13 @@ onChangeID(e){
  }
 
 
+componentDidMount(){
+    this.play();
+}
 
 
-
-
-
-//TIMER
-play(e, tick){
-    e.preventDefault();
+play(tick){
+    // e.preventDefault();
      this.timer = setInterval(this.tick, 1000);
 }
 
@@ -163,7 +158,7 @@ tick() {
 //handles "change picture button"
 //calls randomize function for pictures
 
-generateRandomNumber (randomNumber,e) {
+generateRandomNumber (randomNumber) {
 
 
 this.randomize();
@@ -193,6 +188,7 @@ this.randomize();
 
 componentWillMount(){
     this.randomize ();
+   
 }
 
 //handles mouse over. Sets all hovering/selected divs back to false
@@ -260,6 +256,8 @@ if (this.state.selectedLetter === currentImage.charAt(0)){
         score:this.state.score + 1,
         numberOfAttempts:this.state.numberOfAttempts + 1
     })
+
+        this.generateRandomNumber();
 }
     else {
         this.setState({
@@ -332,7 +330,6 @@ return (
         handleMouseOut={this.handleMouseOut}
         submitLetter={this.submitLetter}
         selected={this.state.selected}
-        // handleLetterSelected={this.handleLetterSelected}
         correct={this.state.correct}
         selectedLetter={this.state.selectedLetter}
         />
@@ -349,9 +346,8 @@ return (
           />
 
      <SearchBox
-     handleSearch={this.handleSearch}
-     onChangeName={this.onChangeName}
-     onChangeID={this.onChangeID}
+     handleSave={this.handleSave}
+  
  
      />
          <div className="footer"></div>
@@ -388,7 +384,6 @@ class LetterBox extends Component {
             <h1>Choose the first sound in the word: </h1>
                 <div id="letterBox1" 
                     className={this.props.selected[0] ? "selected":null}
-                    onClick={(e) => this.props.handleLetterSelected(0)}
                     style={this.props.isHovering[0] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(0)} 
                     onMouseLeave={(e) => this.props.handleMouseOut(0)}>
@@ -398,7 +393,6 @@ class LetterBox extends Component {
 
                 <div id="letterBox2"
                  className={this.props.selected[1] ? "selected":null}
-                  onClick={(e) => this.props.handleLetterSelected(1)}
                    style={this.props.isHovering[1] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(1)}
                     onMouseLeave={(e) => this.props.handleMouseOut(1)}>
@@ -406,7 +400,6 @@ class LetterBox extends Component {
 
                 <div id="letterBox3"
                   className={this.props.selected[2] ? "selected":null}
-                //   onClick={(e) => this.props.handleLetterSelected(2)}
                    style={this.props.isHovering[2] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(2)}
                     onMouseLeave={(e) => this.props.handleMouseOut(2)}>
@@ -414,7 +407,6 @@ class LetterBox extends Component {
 
                 <div id="letterBox4"
                   className={this.props.selected[3] ? "selected":null}
-                //   onClick={(e) => this.props.handleLetterSelected(3)}
                    style={this.props.isHovering[3] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(3)}
                     onMouseLeave={(e)=> this.props.handleMouseOut(3)}>
@@ -422,7 +414,6 @@ class LetterBox extends Component {
 
                 <div id="letterBox5"
                   className={this.props.selected[4] ? "selected":null}
-                //   onClick={(e) => this.props.handleLetterSelected(4)}
                    style={this.props.isHovering[4] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(4)}
                     onMouseLeave={(e) => this.props.handleMouseOut(4)}>
@@ -430,7 +421,6 @@ class LetterBox extends Component {
 
                 <div id="letterBox6"
                   className={this.props.selected[5] ? "selected":null}
-                //   onClick={(e) => this.props.handleLetterSelected(5)}
                    style={this.props.isHovering[5] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(5)}
                     onMouseLeave={(e) => this.props.handleMouseOut(5)}>
@@ -438,7 +428,6 @@ class LetterBox extends Component {
 
                 <div id="letterBox7"
                   className={this.props.selected[6] ? "selected":null}
-                //   onClick={(e) => this.props.handleLetterSelected(6)}
                    style={this.props.isHovering[6] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(6)}
                     onMouseLeave={(e) => this.props.handleMouseOut(6)}>
@@ -492,27 +481,26 @@ class SearchBox extends Component {
         return(
 
                <div className="searchBox">
-                  <form action='/literacy1' method="POST">
-                    <label>Name: </label><input type="text" placeholder="student name" name="student_name" onChange={this.props.onChangeName}></input>
-                     <label>ID: </label><input type="text" placeholder="student ID" name="student_ID" onChange={this.props.onChangeID}></input>
+                 
            
-                    <button type="submit" onClick={(e)=> this.props.handleSearch(e)}>Submit</button>
-                </form>
+                    <button type="submit" className="btn btn-lrg btn-primary" onClick={(e)=> this.props.handleSave(e)}>Click to save your work!</button>
+               
                 </div>
           
         )
     }
 }
 
-//data to send to post request...
-// student_name
-// createdAt
-// student_ID
-// gameType
-// percent
-// totalTime
+
 
  
   
 
 export default App;
+
+
+//  <form action='/literacy1' method="POST">
+//                     <label>Name: </label><input type="text" placeholder="student name" name="student_name" onChange={this.props.onChangeName}></input>
+//                      <label>ID: </label><input type="text" placeholder="student ID" name="student_ID" onChange={this.props.onChangeID}></input>
+                      
+//             </form>

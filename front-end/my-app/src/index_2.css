@@ -300,6 +300,13 @@ h4{
 }
 
 .searchBox{
-  float:left;
-  width:400px;
+  position:absolute;
+  top:600px;
+  right:90px;
+}
+
+.homePageInput{
+  position:absolute;
+  right:20px;
+  top:300px
 }
