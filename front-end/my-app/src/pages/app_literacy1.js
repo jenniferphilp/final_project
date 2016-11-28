@@ -93,6 +93,7 @@ axios.post('http://localhost:8080/api/scores/', {
 
   .then(function (response) {
     console.log(response);
+    alert('Saved!')
   })
   .catch(function (error) {
     console.log(error);

@@ -59,9 +59,9 @@ this.play=this.play.bind(this);
     
 };
 
-componentDidMount(){
-    this.play();
-}
+// componentDidMount(){
+//     this.play();
+// }
 //TIMER
 play(tick){
     this.timer = setInterval(this.tick, 1000);
@@ -85,7 +85,13 @@ tick() {
 componentWillMount(){
     this.generateRandomPhotosOne();
     this.generateRandomPhotosTwo();
+    this.play();
 }
+
+
+
+
+
 
 
  generateRandomPhotosOne(){
@@ -97,21 +103,29 @@ componentWillMount(){
 let randomNumber1 = Math.floor((Math.random() * 10));
 //2nd random number will be the number of items displayed --> this will change state of answer
 let randomNumber2 = Math.floor((Math.random() * 9)) + 1;
-
+  
+//if first number === second, push into array with values first number =3, second number = 4
   let _arrayOfRandomPhotos=[];
     for (let i = 0; i < randomNumber2; i++){
         _arrayOfRandomPhotos.push(<img id="smallPhotoMath" key={i} role="presentation" src={images[randomNumber1]} />)
     }
 
-    this.setState({
+ this.setState({
         randomPhotosOne:_arrayOfRandomPhotos,
         answerGroupOne: randomNumber2,
         isHovering:[false,false],
         selected:[false,false],
         tie:false
     })
+ 
+
+}
+
+
+
+   
   
-}   
+
 
 
  generateRandomPhotosTwo(){
@@ -119,6 +133,8 @@ let randomNumber2 = Math.floor((Math.random() * 9)) + 1;
     let randomNumber1 = Math.floor((Math.random() * 10));
     //2nd random number will be the number of items displayed --> this will change state of answer
     let randomNumber2 = Math.floor((Math.random() * 9)) + 1;
+
+
 
     let _arrayOfRandomPhotos=[];
     for (let i = 0; i < randomNumber2; i++){
@@ -197,6 +213,7 @@ if (this.state.answerGroupOne > this.state.answerGroupTwo && this.state.selected
             score:this.state.score + 1,
             attempts: this.state.attempts + 1
         })
+           this.generateRandomPhotosOne();
 }
 
 else if (this.state.answerGroupOne > this.state.answerGroupTwo && this.state.selected[1] === true && this.state.gameType === 'fewer'){
@@ -206,6 +223,7 @@ else if (this.state.answerGroupOne > this.state.answerGroupTwo && this.state.sel
             score:this.state.score + 1,
             attempts: this.state.attempts + 1
         })
+           this.generateRandomPhotosOne();
 }
 
 
@@ -232,6 +250,7 @@ else if (this.state.answerGroupOne < this.state.answerGroupTwo && this.state.sel
        score:this.state.score +1,
        attempts: this.state.attempts + 1
    })
+      this.generateRandomPhotosOne();
 }
 
 else if (this.state.answerGroupOne < this.state.answerGroupTwo && this.state.selected[0]=== true && this.state.gameType === 'fewer'){
@@ -240,6 +259,8 @@ else if (this.state.answerGroupOne < this.state.answerGroupTwo && this.state.sel
        score:this.state.score +1,
        attempts: this.state.attempts + 1
    })
+
+   this.generateRandomPhotosOne();
 }
 
 else if (this.state.answerGroupOne < this.state.answerGroupTwo && this.state.selected[0] === true && this.state.gameType === 'more'){

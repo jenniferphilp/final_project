@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 // const router = require('./router');  
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 
 
@@ -34,9 +34,9 @@ db.once('open', () => {
 });
 
 
-// app.get('/', (req, res) => {
-//  res.sendFile('/index.html')
-// })
+app.get('/', (req, res) => {
+ console.log('hey girl');
+})
 
 
 //handles the post request on the client side (submitting data for users)
@@ -113,6 +113,6 @@ app.use('/api/scores', Scores_routes);
 
 
 app.listen(PORT, () => {
-	console.log('Server Started on http://localhost:' + PORT);
+	console.log('Listening on Port:', PORT);
 	console.log('Press CTRL + C to stop server');
 });
