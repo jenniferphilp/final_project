@@ -43,9 +43,7 @@ db.once('open', () => {
 const usersToSeed = require('./seeds/Users');
 usersToSeed();
 
-app.get('/', (req, res) => {
- res.send('hey girl');
-})
+
 
 
 
