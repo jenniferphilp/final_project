@@ -40,9 +40,15 @@ db.once('open', () => {
 });
 
 
+//Seed our users
+const usersToSeed = require('./seeds/Users');
+usersToSeed();
+
 app.get('/', (req, res) => {
  res.send('hey girl');
 })
+
+
 
 
 //handles the post request on the client side (submitting data for users)

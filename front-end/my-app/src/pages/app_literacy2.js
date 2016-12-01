@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../index_2.css';
 import { Link } from 'react-router';
+import axios from 'axios';
 
 //notes: use react-router to go from main page to both apps -- literacy, numeracy. 
 
@@ -36,7 +37,10 @@ class App extends Component {
         score:0,
         negativeScore:0,
         spacesForHint: [],
-        numberOfAttempts: 0
+        numberOfAttempts: 0,
+        totalTime:0,
+        student_name:JSON.parse(localStorage.getItem('student_name')),
+        student_ID:localStorage.getItem('student_ID')
    
 
   };
@@ -44,8 +48,12 @@ class App extends Component {
     this.generateRandomNumber=this.generateRandomNumber.bind(this);
     this.checkSpelling=this.checkSpelling.bind(this);
     this.handleTextChange=this.handleTextChange.bind(this);
-    this.resetScore=this.resetScore.bind(this);
     this.createHint=this.createHint.bind(this);
+    this.handleSave=this.handleSave.bind(this);
+    
+    this.tick=this.tick.bind(this);
+    this.pause=this.pause.bind(this);
+    this.play=this.play.bind(this);
 
 
   };
@@ -123,14 +131,70 @@ handleTextChange(e){
   }
 }
 
-resetScore(e){
-  e.preventDefault();
+//problem of student saving over and over... put setTimeOut on handleSave
+handleSave(e){
+e.preventDefault();
+
+axios.post('http://localhost:8080/api/scores/', {
+    // student_ID: this.state.student_ID,
+  //this is saved from home page using cookies
+    //
+    //created at: need timestamp
+    student_ID:this.state.student_ID,
+    gameType: "Literacy 2",
+    percent:((this.state.score)/(this.state.numberOfAttempts)*100),
+    totalTime: this.state.totalTime
+
+    })
+
+  .then(function (response) {
+    console.log(response);
+    alert('Saved!')
+  })
+  .catch(function (error) {
+    console.log(error);
+    alert('You have an error! Please see your teacher')
+  });
+
+  //handles "reset" of timer and score, attempts. 
   this.setState({
-    score: 0,
-    correct:false,
-    negativeScore:0
+        correct:false,
+        score:0,
+        negativeScore:0,
+        numberOfAttempts:0,
+        totalTime:0
+ 
   })
 }
+
+
+componentDidMount(){
+    this.play();
+}
+
+
+play(tick){
+    // e.preventDefault();
+     this.timer = setInterval(this.tick, 1000);
+}
+
+  
+ pause(e){
+     e.preventDefault();
+    clearInterval(this.timer);
+     console.log('paused')
+           
+    }
+
+tick() {
+    this.setState({
+   
+        totalTime: this.state.totalTime + 1,
+    })
+}
+
+
+
 
   render() {
   let hint = this.state.imageText[this.state.randomImageIndex];
@@ -144,14 +208,16 @@ resetScore(e){
   
       <div className="App">
         
-        <div className="App-header">
+       <div className="App-header">
             
-            <h1 className="title">This is the title</h1>
-             <button className="homeButton" type="button"> <Link to="/">Home</Link></button>
-       
-         </div>
+            <h1 className="title">Welcome {this.state.student_name}!</h1>
+            
+  
+        </div>
           
-       <PhotoBox
+      <div className="container">
+
+        <PhotoBox
           generateRandomNumber={this.generateRandomNumber}
           images={this.props.images}
           randomImageIndex={this.state.randomImageIndex}
@@ -160,9 +226,21 @@ resetScore(e){
         <SpellingChecker
           handleTextChange={this.handleTextChange}
           checkSpelling={this.checkSpelling}
+          showHint={this.state.negativeScore <= -4 ? "showHint":"hideHint"}
+         spacesForHint={this.state.spacesForHint}
+         hintFirstLetter={hintFirstLetter}
         />
 
-        <ScoreCard
+       
+
+      
+
+    </div> 
+
+  
+
+
+          <ScoreCard
           resetScore={this.resetScore}
           correct={this.state.correct}
           newText={this.state.newText}
@@ -170,24 +248,16 @@ resetScore(e){
           numberOfAttempts={this.state.numberOfAttempts}
          />
 
-         <HintBox
-         showHint={this.state.negativeScore <= -4 ? "showHint":"hideHint"}
-         spacesForHint={this.state.spacesForHint}
-         hintFirstLetter={hintFirstLetter}
-         />
+      <ControlPanel
+            generateRandomNumber={this.generateRandomNumber}
+            totalTime={this.state.totalTime}
+            pause={this.pause}     
+            play={this.play}
+            checkSpelling={this.checkSpelling}
+            handleSave={this.handleSave}
+       />
 
         
-            <div className="col-lg-6 col-md-6 col-sm-1 col-xs-1 outerBox">
-          
-          
-          
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-1 col-xs-1 outerBox">
-          
-          
-          
-            </div>
-          
        
           </div>
   )};
@@ -197,8 +267,7 @@ class PhotoBox extends Component {
 
    render() {
       return (
-         <div className="photoBox col-lg-3 col-md-3 col-sm-6 col-xs-12">
-         <button className="btn btn-lrg btn-primary changePictureButton" type="button" onClick={this.props.generateRandomNumber}>Click here to change picture!</button>
+         <div className="smallBox1">
            <img id="photoLiteracy" role="presentation" src={images[this.props.randomImageIndex]} />
         </div>
      )
@@ -208,12 +277,20 @@ class PhotoBox extends Component {
 class SpellingChecker extends Component{
   render() {
     return(
-    <div className="spellingChecker col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <div className="smallBox1">
           <form onSubmit={this.props.checkSpelling}>
-              <h1>Spell the word in the picture:</h1><br></br>
+              <h1 className="instructions">Spell the word in the picture:</h1><br></br>
               <input type="text"  autoComplete="off" name="spellPicture" className="inputSpellPicture" onChange={this.props.handleTextChange}/>
-              <button className="btn btn-lrg btn-primary submitAnswerButton"  type="submit" >Click to check your spelling</button>         
+                   
           </form>  
+          <div className="fadeIn">
+              <div className={this.props.showHint}>
+                  <h1>Here's a Hint: <br></br></h1>
+                  <h1>{this.props.hintFirstLetter}
+                    {this.props.spacesForHint}</h1>      
+                </div>
+           </div>
+
     </div>
 
     )
@@ -223,34 +300,59 @@ class SpellingChecker extends Component{
    class ScoreCard extends Component {
      render(){
        return(
-       <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 outerBox">
-            <div className="scoreCard">
+       <div className="smallBox1withBorderLit2">
+     
                <h3 className="success">{this.props.correct && this.props.newText !== "" ? "Success!":null}</h3>
                <h3 className="keepTrying">{!this.props.correct && this.props.newText ==="" ? "Keep Trying!":null}</h3>
                <h3 className="score">Number Correct: {this.props.score}</h3>
               <h3 className="score">Number of Attempts: {this.props.numberOfAttempts}</h3>
-            </div>
-          <button className="btn btn-lrg btn-primary resetButton"  type="submit" onClick={(e) =>this.props.resetScore(e)}>Click to reset Score</button> 
+           
+          
       </div>
 )}}
 
 
-class HintBox extends Component {
-  render(){
 
-    
-  
-  return(
-        <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 outerBox">
-              <div className={this.props.showHint}>
-                  <h1>Here's a Hint: <br></br></h1>
-                  <h1 className="flashingLetter">{this.props.hintFirstLetter}
-                  {this.props.spacesForHint}</h1>      
+class ControlPanel extends Component {
+
+render(){
+
+    return (
+       
+    <div>
+
+         <div className="controlPanel">
+
+                <div className="buttonsContainer col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                    <button className="btn-circle" type="button" onClick={this.props.generateRandomNumber}>Change</button>
+                     <button className="btn-circle" type="button" onClick={(e)=> this.props.handleSave(e)}>Save</button>
+                    
                 </div>
-              </div>
+         
+                <div className="timerContainer col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                     <div className="tinyTimer">
+                        <h4>Total Time:  {this.props.totalTime} seconds</h4>
+                        <button onClick={(e)=>this.props.play(e)}><span className="glyphicon glyphicon-play"></span></button>
+                        <button onClick={(e)=>this.props.pause(e)}><span className="glyphicon glyphicon-pause"></span></button>
+                    </div>
+                </div>
+
+                <div className="buttonsContainer col-lg-4 col-md-12 col-sm-12 col-xs-12">   
+                    <button className="btn-circle" type="button" onClick={(e)=> this.props.checkSpelling(e)}>Submit</button>
+                    <button className="btn-circle" type="button"><Link to="/">Home</Link></button>
+                </div>
+
+         
+         
+         </div>
+
+    </div>
+
+    )
+}
+}
 
 
-  )}}
 
 export default App;
 

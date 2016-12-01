@@ -21,12 +21,15 @@ ReactDOM.render((
 
  <Router history={browserHistory} >
 
- 
- <Route path="/" component={Home} />
-    <Route path="/literacy1" component={LitApp1} />
-    <Route path="/literacy2" component={LitApp2} />
-    <Route path="/numeracy1" component={MathApp1} />
-    <Route path="/numeracy2" component={MathApp2} />
+  
+
+
+    <Route path="/" component={Home} />
+        <Route path="/literacy1" component={LitApp1} />
+        <Route path="/literacy2" component={LitApp2} />
+        <Route path="/numeracy1" component={MathApp1} />
+        <Route path="/numeracy2" component={MathApp2} />
+    
 
  </Router>
 

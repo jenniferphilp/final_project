@@ -1,5 +1,5 @@
 const Users = require('../models/Users.js');
-const UsersToSeed = [
+const usersToSeed = [
     {student_name: 'Jen', student_ID: 1234},
     {student_name: 'Branko', student_ID: 3456},
     {student_name: 'Katie', student_ID: 5555},
@@ -15,7 +15,7 @@ module.exports = () => {
         } else {
             if (users.length === 0) {
            
-                users.create(usersToSeed, (err, users) => {
+                Users.create(usersToSeed, (err, users) => {
                     console.log(users)
                 })
             }

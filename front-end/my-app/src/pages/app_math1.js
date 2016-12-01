@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import axios from 'axios';
 
 import '../index_2.css';
 
@@ -35,7 +36,10 @@ super(props);
         correct:false,
         score:0,
         negativeScore:0,
-        attempts:0
+        attempts:0,
+        totalTime:0,
+        student_name:JSON.parse(localStorage.getItem('student_name')),
+        student_ID:localStorage.getItem('student_ID')
 
 
     };
@@ -44,12 +48,73 @@ super(props);
     this.clearPhotos=this.clearPhotos.bind(this);
     this.handleAnswer=this.handleAnswer.bind(this);
     this.checkAnswer=this.checkAnswer.bind(this);
+
+    this.tick=this.tick.bind(this);
+    this.pause=this.pause.bind(this);
+    this.play=this.play.bind(this);
+    this.handleSave=this.handleSave.bind(this);
 };
 
+//timer
+componentDidMount(){
+    this.play();
+}
+play(tick){
+    // e.preventDefault();
+     this.timer = setInterval(this.tick, 1000);
+}
+pause(e){
+     e.preventDefault();
+    clearInterval(this.timer);
+     console.log('paused')
+}
+tick() {
+    this.setState({
+   
+        totalTime: this.state.totalTime + 1,
+    })
+}
+
+//problem of student saving over and over... put setTimeOut on handleSave
+handleSave(e){
+e.preventDefault();
+
+axios.post('http://localhost:8080/api/scores/', {
+    // student_ID: this.state.student_ID (from local storage)
+
+    student_ID: this.state.student_ID,
+    gameType: "Numeracy 1",
+    percent:((this.state.score)/(this.state.numberOfAttempts)*100),
+    totalTime: this.state.totalTime
+
+    })
+
+  .then(function (response) {
+    console.log(response);
+    alert('Saved!')
+  })
+  .catch(function (error) {
+    console.log(error);
+    alert('You have an error! Please see your teacher')
+  });
+
+  //handles "reset" of timer and score, attempts. 
+  this.setState({
+        correct:false,
+        score:0,
+        negativeScore:0,
+        numberOfAttempts:0,
+        totalTime:0
+ 
+  })
+}
 
 componentWillMount(){
     this.generateRandomPicture();
 }
+
+
+
 
 generateRandomPicture(){
 this.clearPhotos();
@@ -99,14 +164,6 @@ checkAnswer(e){
 let submitted = this.state.submittedAnswer;
 let answer = this.state.answer;
 
-console.log("submitted answer:" + this.state.submittedAnswer)
-console.log(typeof this.state.submittedAnswer)
-console.log("real answer:" + this.state.answer)
-console.log(typeof this.state.answer)
-
-
-
-
     if (submitted == answer){
             this.setState({
                 correct:true,
@@ -124,55 +181,123 @@ console.log(typeof this.state.answer)
 
 }
 
-    
-
-
-
 render() {
 
  
 
         return (
   
-            <div>
-              <div className="App-header">
+        <div className="App">
+             <div className="App-header">
             
-                    <h1 className="title">This is the title</h1>
-                    <button className="homeButton" type="button"> <Link to="/">Home</Link></button>
+                <h1 className="title">Welcome {this.state.student_name}!</h1>
+            
+  
             </div>
-               
-                <div className="col-lg-6 col-md-6 col-sm-1 col-xs-1 outerBoxMathApp">
-          
+               <div className="containerMath">
+                 <InputBox
+                    itemName={this.state.itemName}
+                    handleAnswer={this.handleAnswer}
 
-        
-                 {this.state.arrayOfRandomPhotos}
+                    />
+                    <Photos
+                    arrayOfRandomPhotos={this.state.arrayOfRandomPhotos}
+                    />
 
+                  
 
                 </div>
 
-                 <div className="col-lg-6 col-md-6 col-sm-1 col-xs-1 outerBox">
-                    <h1>Count each {this.state.itemName}!</h1>
-                    <button className="btn btn-lrg btn-primary changePictureButtonMathApp" type="button" onClick={this.generateRandomPicture}>Click to change picture!</button>
+                <ScoreCard
+                    score={this.state.score}
+                    attempts={this.state.attempts}
+                    correct={this.state.correct} 
+                />
 
-                    <form onSubmit={this.checkAnswer}>
-                        <input type="number"  autoComplete="off" className="inputMathAnswer" onChange={this.handleAnswer}/>
-                        <button className="btn btn-lrg btn-primary checkAnswerMath" type="submit" >Submit</button>
-                    </form>    
-                    
-                        <h3>Number Correct: {this.state.score}</h3>
-                        <h3>Number of Attempts: {this.state.attempts}</h3>
-              </div>
-                      <div className="photoBox col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <h3 className={this.state.correct ? "success":null}>{this.state.correct ? "Success! Awesome!":"Keep trying"}</h3>
-                     
-          </div>
+                <ControlPanel
+                    generateRandomPicture={this.generateRandomPicture}
+                    totalTime={this.state.totalTime}
+                    checkAnswer={this.checkAnswer}
+                    pause={this.pause}     
+                    play={this.play}
+                    submitLetter={this.submitLetter}
+                    handleSave={this.handleSave}
+                />
+
           </div>
   )};
 }
 
-  
+class InputBox extends Component{
+    render (){
+        return(
+                <div className="inputBoxMath1">
+                    <h1 className="instructions">Count each {this.props.itemName}!</h1>
+                    <input type="number"  autoComplete="off" className="inputMathAnswer inputSpellPicture" onChange={this.props.handleAnswer}/>
+                </div>
 
+        )
+    }
+}
 
+class ScoreCard extends Component{
+    render(){
+        return(
+            <div className="smallBox1withBorder">
+                <h3>Number Correct: {this.props.score}</h3>
+                <h3>Number of Attempts: {this.props.attempts}</h3>
+                <h3 className={this.props.correct ? "success":null}>{this.props.correct ? "Success! Awesome!":"Keep trying"}</h3>
+            </div>
+        )
+    }
+}
+
+class Photos extends Component {
+render(){
+    return(
+                <div className="bigBoxMath1">
+                    {this.props.arrayOfRandomPhotos}
+                 </div>
+    )
+}
+}
+
+class ControlPanel extends Component {
+
+render(){
+
+    return (
+       
+    <div>
+
+         <div className="controlPanel">
+
+                <div className="buttonsContainer col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                    <button className="btn-circle" type="button" onClick={this.props.generateRandomPicture}>Change</button>
+                     <button className="btn-circle" type="button" onClick={(e)=> this.props.handleSave(e)}>Save</button>
+                    
+                </div>
+         
+                <div className="timerContainer col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                     <div className="tinyTimer">
+                        <h4>Total Time:  {this.props.totalTime} seconds</h4>
+                        <button onClick={(e)=>this.props.play(e)}><span className="glyphicon glyphicon-play"></span></button>
+                        <button onClick={(e)=>this.props.pause(e)}><span className="glyphicon glyphicon-pause"></span></button>
+                    </div>
+                </div>
+
+                <div className="buttonsContainer col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                    <button className="btn-circle" type="button" onClick={(e) => this.props.checkAnswer(e)}>Submit</button>
+                    <button className="btn-circle" type="button"><Link to="/">Home</Link></button>
+                </div>
+
+         
+         
+         </div>
+
+    </div>
+    )}
+}
 
 export default MathApp;
 

@@ -3,9 +3,6 @@ import '../index_2.css';
 import { Link } from 'react-router';
 import axios from 'axios';
 
-
-
-
 import baby from '../img/baby.png';
 import car from '../img/car.png';
 import mouse from '../img/mouse.png';
@@ -44,10 +41,10 @@ class App extends Component {
         score:0,
         negativeScore:0,
         numberOfAttempts:0,
-        // elapsed:0,
-        totalTime:0,
-        student_name:null,
-        student_ID:null
+        totalTime:null,
+        student_name:JSON.parse(localStorage.getItem('student_name')),
+        //JSON.parse --> change from string to an object
+        student_ID:localStorage.getItem('student_ID')
      
 
       
@@ -68,8 +65,7 @@ class App extends Component {
     this.pause=this.pause.bind(this);
     this.play=this.play.bind(this);
     this.handleSave=this.handleSave.bind(this);
-    this.onChangeName=this.onChangeName.bind(this);
-    this.onChangeID=this.onChangeID.bind(this);
+
   
 
   };
@@ -83,8 +79,8 @@ axios.post('http://localhost:8080/api/scores/', {
     // student_ID: this.state.student_ID,
   //this is saved from home page using cookies
     //
-    //created at: need timestamp
-    student_ID: "12345",
+
+    student_ID: this.state.student_ID,
     gameType: "Literacy 1",
     percent:((this.state.score)/(this.state.numberOfAttempts)*100),
     totalTime: this.state.totalTime
@@ -106,26 +102,10 @@ axios.post('http://localhost:8080/api/scores/', {
         score:0,
         negativeScore:0,
         numberOfAttempts:0,
-        // elapsed:0,
         totalTime:0
  
   })
 }
-
-onChangeName(e){
-    this.setState({
-        student_name: e.target.value
-    })
- }
-
-onChangeID(e){
-    let id = Number(e.target.value, 10);
-     console.log(id)
-  this.setState({
-        student_ID: id
-    })
- }
-
 
 componentDidMount(){
     this.play();
@@ -183,6 +163,7 @@ this.randomize();
 
     this.setState({
         selected:[false,false,false,false,false,false,false]
+    
     })
 }
  
@@ -274,30 +255,33 @@ if (this.state.selectedLetter === currentImage.charAt(0)){
 randomize(){
     let _arrayRandomIndex = [];
 
-    //creates an array of 6 random numbers between 0 and 6
-    for (let i = 0; i < 6; i++) {
-        let randomNumber = Math.floor((Math.random() * 6));
-        _arrayRandomIndex.push(randomNumber);
-        }
-    //loops through the array; adds a 0; stops loop when a 0 is hit (this ensures we have "fullHint.charAt(0)" always in our array)
-    for (let i = 0; i < 6; i++) {
-    if (_arrayRandomIndex[i] === 0) {break; }
-        _arrayRandomIndex.push(0);
-        
-    }
+    //creates an array of 8 random numbers between 0 and 8
+    for (let i = 0; i < 9; i++) {
+        let randomNumber = Math.floor((Math.random() * 8));
 
-    this.setState({
-        arrayRandomIndex:_arrayRandomIndex
-    })
+            _arrayRandomIndex.push(randomNumber);
+         
+        }
+
+       if(_arrayRandomIndex.includes(0)){
+            this.setState({
+            arrayRandomIndex:_arrayRandomIndex
+        })
+       }
+       else {
+           _arrayRandomIndex.splice(1, 1, 0);
+            this.setState({
+            arrayRandomIndex:_arrayRandomIndex
+        })
+       }
+   
+       console.log(_arrayRandomIndex);
+ 
 }
 
-
-
-  
-
-  render() {
+render() {
         let fullHint= this.state.imageText[this.state.randomImageIndex];
-        let arrayLetters = [fullHint.charAt(0), "s", "f", "n", "t", "r", "z"]
+        let arrayLetters = [fullHint.charAt(0), "s", "f", "n", "t", "r", "o", "p", "q"]
         
         // const elapse = Math.round(this.state.elapsed / 100);
         // const seconds = (elapse / 10).toFixed(1); 
@@ -309,13 +293,14 @@ return (
         
         <div className="App-header">
             
-            <h1 className="title">Luke I am your title</h1>
+            <h1 className="title">Welcome {this.state.student_name}!</h1>
             
   
-
-        <button className="homeButton" type="button"> <Link to="/">Home</Link></button>
-         </div>
-       
+        </div>
+    
+ <h1 className="instructions">Choose the first sound in the word:</h1>
+ <div className="container">
+         
          
        <PhotoBox
           generateRandomNumber={this.generateRandomNumber}
@@ -329,40 +314,42 @@ return (
         isHovering={this.state.isHovering}
         handleMouseOver={this.handleMouseOver}
         handleMouseOut={this.handleMouseOut}
-        submitLetter={this.submitLetter}
+    
         selected={this.state.selected}
         correct={this.state.correct}
         selectedLetter={this.state.selectedLetter}
         />
 
+</div>  
          <AnswerBox
          correct={this.state.correct}
          score={this.state.score}
          numberOfAttempts={this.state.numberOfAttempts}
          negativeScore={this.state.negativeScore}
-         elapsed={this.state.elapsed}
-         totalTime={this.state.totalTime}
-         pause={this.pause}     
-         play={this.play}
+         
           />
 
-     <SearchBox
-     handleSave={this.handleSave}
   
- 
-     />
-         <div className="footer"></div>
-          </div>
-  )};
-}
+       <ControlPanel 
+            generateRandomNumber={this.generateRandomNumber}
+            randomImageIndex={this.state.randomImageIndex}
+            totalTime={this.state.totalTime}
+            pause={this.pause}     
+            play={this.play}
+            submitLetter={this.submitLetter}
+            handleSave={this.handleSave}
+       />
+
+</div>
+)}}
 
 
 class PhotoBox extends Component {
 
    render() {
       return (
-         <div className="photoBox col-lg-3 col-md-3 col-sm-6 col-xs-12">
-         <button className="btn btn-lrg btn-primary changePictureButton" type="button" onClick={this.props.generateRandomNumber}>Click here to change picture!</button>
+         <div className="smallBoxLiteracy1">
+         
            <img id="photoLiteracy" role="presentation" src={images[this.props.randomImageIndex]} />
         </div>
      )
@@ -381,62 +368,99 @@ class LetterBox extends Component {
 
  return (
     
-    <div className="col-lg-6 col-md-6 col-sm-1 col-xs-1 bigBoxLiteracy">
-            <h1>Choose the first sound in the word: </h1>
-                <div id="letterBox1" 
+    <div className="bigBoxLiteracy">
+         <div className="container" id="letterContainer">
+         
+                <div id="letterBox" 
                     className={this.props.selected[0] ? "selected":null}
                     style={this.props.isHovering[0] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(0)} 
                     onMouseLeave={(e) => this.props.handleMouseOut(0)}>
                     <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[0]]}</h2></div>
                
+          
 
-
-                <div id="letterBox2"
+                <div id="letterBox"
                  className={this.props.selected[1] ? "selected":null}
                    style={this.props.isHovering[1] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(1)}
                     onMouseLeave={(e) => this.props.handleMouseOut(1)}>
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[1]]}</h2></div>
 
-                <div id="letterBox3"
+     
+
+                <div id="letterBox"
                   className={this.props.selected[2] ? "selected":null}
                    style={this.props.isHovering[2] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(2)}
                     onMouseLeave={(e) => this.props.handleMouseOut(2)}>
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[2]]}</h2></div>
 
-                <div id="letterBox4"
+ 
+
+                <div id="letterBox"
                   className={this.props.selected[3] ? "selected":null}
                    style={this.props.isHovering[3] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(3)}
                     onMouseLeave={(e)=> this.props.handleMouseOut(3)}>
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[3]]}</h2></div>
 
-                <div id="letterBox5"
+   
+
+                <div id="letterBox"
                   className={this.props.selected[4] ? "selected":null}
                    style={this.props.isHovering[4] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(4)}
                     onMouseLeave={(e) => this.props.handleMouseOut(4)}>
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[4]]}</h2></div>
 
-                <div id="letterBox6"
+           
+
+                <div id="letterBox"
                   className={this.props.selected[5] ? "selected":null}
                    style={this.props.isHovering[5] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(5)}
                     onMouseLeave={(e) => this.props.handleMouseOut(5)}>
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[5]]}</h2></div>
 
-                <div id="letterBox7"
+         
+
+                <div id="letterBox"
                   className={this.props.selected[6] ? "selected":null}
                    style={this.props.isHovering[6] ? style:null} 
                     onMouseEnter={(e)=>this.props.handleMouseOver(6)}
                     onMouseLeave={(e) => this.props.handleMouseOut(6)}>
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[6]]}</h2></div>
+              
+        
+   
 
-            <button className="btn btn-lrg btn-primary largeSubmitButton"  type="submit" onClick={()=> this.props.submitLetter()}>Click to submit</button>
-            </div>
-          
+            <div id="letterBox"
+                  className={this.props.selected[7] ? "selected":null}
+                   style={this.props.isHovering[7] ? style:null} 
+                    onMouseEnter={(e)=>this.props.handleMouseOver(7)}
+                    onMouseLeave={(e) => this.props.handleMouseOut(7)}>
+                <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[7]]}</h2></div>
+
+      
+
+            <div id="letterBox"
+                  className={this.props.selected[8] ? "selected":null}
+                   style={this.props.isHovering[8] ? style:null} 
+                    onMouseEnter={(e)=>this.props.handleMouseOver(8)}
+                    onMouseLeave={(e) => this.props.handleMouseOut(8)}>
+                <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[8]]}</h2></div>
+            <div id="emptyLetterBox"></div>
+             <div id="emptyLetterBox"></div>
+             <div id="emptyLetterBox"></div>
+            <div id="emptyLetterBox"></div>
+            <div id="emptyLetterBox"></div>
+            <div id="emptyLetterBox"></div>
+             <div id="emptyLetterBox"></div>
+                <div id="emptyLetterBox"></div>
+       
+       </div> 
+       </div>  
 
 )
 
@@ -454,18 +478,12 @@ render(){
 
 return (
      
-            <div className="col-lg-3 col-md-3 col-sm-1 col-xs-1 outerBox" >
+            <div className="smallBox1withBorder" >
                 <h3 className="success">{this.props.correct ? "Success!": " "}</h3>
                 <h3 className="success">{!this.props.correct && this.props.negativeScore < 0 ? "Keep Trying!":null}</h3>
                 <h3>Number Correct: {this.props.score}</h3>
                 <h3>Number of Attempts: {this.props.numberOfAttempts}</h3>
-                 <div className="tinyTimerLiteracy1">
-                 
-                    <h4>Total Time:  {this.props.totalTime} seconds</h4>
-                <button onClick={(e)=>this.props.play(e)}><span className="glyphicon glyphicon-play"></span></button>
-                <button onClick={(e)=>this.props.pause(e)}><span className="glyphicon glyphicon-pause"></span></button>
-
-                </div>
+               
 
              
             </div>
@@ -475,33 +493,52 @@ return (
 }
 }
 
-class SearchBox extends Component {
 
-    render(){
 
-        return(
 
-               <div className="searchBox">
-                 
-           
-                    <button type="submit" className="btn btn-lrg btn-primary" onClick={(e)=> this.props.handleSave(e)}>Click to save your work!</button>
-               
+class ControlPanel extends Component {
+
+render(){
+
+    return (
+       
+    <div>
+
+         <div className="controlPanel">
+
+                <div className="buttonsContainer col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                    <button className="btn-circle" type="button" onClick={this.props.generateRandomNumber}>Change</button>
+                     <button className="btn-circle" type="button" onClick={(e)=> this.props.handleSave(e)}>Save</button>
+                    
                 </div>
-          
-        )
-    }
+         
+                <div className="timerContainer col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                     <div className="tinyTimer">
+                        <h4>Total Time:  {this.props.totalTime} seconds</h4>
+                        <button onClick={(e)=>this.props.play(e)}><span className="glyphicon glyphicon-play"></span></button>
+                        <button onClick={(e)=>this.props.pause(e)}><span className="glyphicon glyphicon-pause"></span></button>
+                    </div>
+                </div>
+
+                <div className="buttonsContainer col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                    <button className="btn-circle" type="button" onClick={()=> this.props.submitLetter()}>Submit</button>
+                    <button className="btn-circle" type="button"><Link to="/">Home</Link></button>
+                </div>
+
+         
+         
+         </div>
+
+    </div>
+
+    )
 }
-
-
-
+}
  
   
 
 export default App;
 
 
-//  <form action='/literacy1' method="POST">
-//                     <label>Name: </label><input type="text" placeholder="student name" name="student_name" onChange={this.props.onChangeName}></input>
-//                      <label>ID: </label><input type="text" placeholder="student ID" name="student_ID" onChange={this.props.onChangeID}></input>
-                      
-//             </form>
+
+
