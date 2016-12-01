@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 8080;
 
 
 
- app.use(express.static('./../front-end/my-app/build'));
+ app.use(express.static(__dirname + 'build'));
 
 // app.use(express.static('public'));
 
@@ -124,4 +124,9 @@ app.use('/api/scores', Scores_routes);
 app.listen(PORT, () => {
 	console.log('Listening on Port:', PORT);
 	console.log('Press CTRL + C to stop server');
+});
+
+
+app.get('*', function(req, res) {
+   res.sendFile((__dirname + '/build/index.html'));
 });

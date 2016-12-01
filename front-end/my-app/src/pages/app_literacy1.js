@@ -75,6 +75,8 @@ axios.post('http://35.163.164.137/api/scores/', {
   //this is saved from home page using cookies
     //
 
+    
+
     student_ID: this.state.student_ID,
     gameType: "Literacy 1",
     percent:((this.state.score)/(this.state.numberOfAttempts)*100),
