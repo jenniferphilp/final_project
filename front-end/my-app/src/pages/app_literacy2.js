@@ -116,6 +116,8 @@ handleTextChange(e){
    
   })
 
+  this.generateRandomNumber();
+
 
 }
   else if (this.state.newText !== this.state.imageText[this.state.randomImageIndex]){
@@ -135,7 +137,7 @@ handleTextChange(e){
 handleSave(e){
 e.preventDefault();
 
-axios.post('http://localhost:8080/api/scores/', {
+axios.post('http://35.163.164.137/api/scores/', {
     // student_ID: this.state.student_ID,
   //this is saved from home page using cookies
     //
@@ -226,7 +228,7 @@ tick() {
         <SpellingChecker
           handleTextChange={this.handleTextChange}
           checkSpelling={this.checkSpelling}
-          showHint={this.state.negativeScore <= -4 ? "showHint":"hideHint"}
+          showHint={this.state.negativeScore <= -4 ? " ":"hideHint"}
          spacesForHint={this.state.spacesForHint}
          hintFirstLetter={hintFirstLetter}
         />
@@ -285,8 +287,8 @@ class SpellingChecker extends Component{
           </form>  
           <div className="fadeIn">
               <div className={this.props.showHint}>
-                  <h1>Here's a Hint: <br></br></h1>
-                  <h1>{this.props.hintFirstLetter}
+                  <h1 className="hint">Here's a Hint: <br></br>
+                    {this.props.hintFirstLetter}
                     {this.props.spacesForHint}</h1>      
                 </div>
            </div>

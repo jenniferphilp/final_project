@@ -17,6 +17,8 @@ import bat from '../img/bat.png';
 
 const images = [baby, car, mouse, computer, bear, cat, dog, ball, bed, bat]
 
+const imageSounds = ['/AUDIO/baby.mp3', '/AUDIO/car.mp3','/AUDIO/mouse.mp3','AUDIO/computer.mp3','AUDIO/bear.mp3','AUDIO/cat.mp3','AUDIO/dog.mp3','AUDIO/ball.mp3','AUDIO/bed.mp3','AUDIO/bat.mp3'];
+
 
 class App extends Component {
 
@@ -29,12 +31,12 @@ class App extends Component {
     this.state = {
         images:this.props.images,
         randomImageIndex:0,
-   
+        //10 possible pictures
         imageText:["baby", "car", "mouse", "computer", "bear", "cat", "dog", "ball", "bed", "bat"],
-  
-        isHovering:[false, false, false, false, false, false, false],
+        //8 spaces for hints
+        isHovering:[false, false, false, false, false, false, false, false],
         arrayRandomIndex:[],
-        selected:[false, false, false, false, false, false, false],
+        selected:[false, false, false, false, false, false, false, false],
 
         correct:false,
         selectedLetter: " ",
@@ -46,14 +48,7 @@ class App extends Component {
         //JSON.parse --> change from string to an object
         student_ID:localStorage.getItem('student_ID')
      
-
-      
-
-        
-      
-  };
-
-
+ };
 
     this.generateRandomNumber=this.generateRandomNumber.bind(this);
     this.handleMouseOver=this.handleMouseOver.bind(this);
@@ -63,19 +58,19 @@ class App extends Component {
     
     this.tick=this.tick.bind(this);
     this.pause=this.pause.bind(this);
-    this.play=this.play.bind(this);
+    this.playTimer=this.playTimer.bind(this);
+    
     this.handleSave=this.handleSave.bind(this);
-
-  
-
-  };
+    this.playSong=this.playSong.bind(this);
+   
+};
 
 
 //problem of student saving over and over... put setTimeOut on handleSave
 handleSave(e){
 e.preventDefault();
 
-axios.post('http://localhost:8080/api/scores/', {
+axios.post('http://35.163.164.137/api/scores/', {
     // student_ID: this.state.student_ID,
   //this is saved from home page using cookies
     //
@@ -108,11 +103,11 @@ axios.post('http://localhost:8080/api/scores/', {
 }
 
 componentDidMount(){
-    this.play();
+    this.playTimer();
 }
 
 
-play(tick){
+playTimer(tick){
     // e.preventDefault();
      this.timer = setInterval(this.tick, 1000);
 }
@@ -143,7 +138,7 @@ generateRandomNumber (randomNumber) {
 
 
 this.randomize();
-
+//creates random number between 0 and 9; becomes the image index
    randomNumber = Math.floor((Math.random() * 10));
 
         this.setState({
@@ -154,15 +149,11 @@ this.randomize();
          
         })
 
-     if (this.state.correct){
-          this.setState({
-          correct:false
-        })
-      
-    }
+
 
     this.setState({
-        selected:[false,false,false,false,false,false,false]
+        // 8 spaces for letter hints; resets any selected divs to false
+        selected:[false,false,false,false,false,false,false,false]
     
     })
 }
@@ -175,21 +166,20 @@ componentWillMount(){
 
 //handles mouse over. Sets all hovering/selected divs back to false
 handleMouseOver(index){
-this.setState({
-    isHovering:[false,false,false,false,false, false,false],
-    selected:[false,false,false,false,false, false,false]
-})
 
-
+    this.setState({
+        isHovering:[false,false,false,false,false,false,false],
+        selected:[false,false,false,false,false,false,false],
+     
+    })
   
-   
 //sets hovering & selected states of selected div by index value
 //timeout ensures all divs are set to false 1st
 let item = this.state.isHovering;
 item[index] = true;
  
+ //necessary so that isHovering & selected changes to false before item is selected. prevents multiple divs from being selected
  setTimeout(()=> {
-
 
     this.setState({
         isHovering:item,
@@ -202,8 +192,8 @@ item[index] = true;
 //handles mouse out. ensure all hovering is false. 'Selected' state does not change
 handleMouseOut(index){
     this.setState({
-        isHovering:[false, false, false, false, false, false, false],
-        selected:[false, false, false, false, false, false, false]
+        isHovering:[false, false, false, false, false, false, false, false],
+        // selected:[false, false, false, false, false, false, false]
      
     })
 
@@ -218,8 +208,10 @@ setTimeout(()=> {
     })
 }, 10)  
 
+//displayed image text
 let fullHint= this.state.imageText[this.state.randomImageIndex];
-let arrayLetters = [fullHint.charAt(0), "s", "f", "n", "t", "r", "z"]
+//arrayLetters === all the possible letter options for hints 
+let arrayLetters = [fullHint.charAt(0), "s", "f", "n", "t", "r", "z", "a"]
     
     this.setState({
             selectedLetter: arrayLetters[this.state.arrayRandomIndex[index]]
@@ -228,7 +220,8 @@ let arrayLetters = [fullHint.charAt(0), "s", "f", "n", "t", "r", "z"]
 }
 
 //handles whether selected letter is correct
-submitLetter(){
+submitLetter(e){
+    e.preventDefault();
    let currentImage = this.state.imageText[this.state.randomImageIndex];
 
 
@@ -239,9 +232,10 @@ if (this.state.selectedLetter === currentImage.charAt(0)){
         numberOfAttempts:this.state.numberOfAttempts + 1
     })
 
+        //if attempt is correct, reset picture. Message in scoreboard should be "success"
         this.generateRandomNumber();
 }
-    else {
+    else if (this.state.selectedLetter !== currentImage.charAt(0)){
         this.setState({
             negativeScore:this.state.negativeScore - 1,
             correct:false,
@@ -253,10 +247,12 @@ if (this.state.selectedLetter === currentImage.charAt(0)){
 }
 
 randomize(){
+    //creates an array of 8 hint letters; includes the correct letter
     let _arrayRandomIndex = [];
 
-    //creates an array of 8 random numbers between 0 and 8
-    for (let i = 0; i < 9; i++) {
+    //creates an array of 8 (# of spaces) random numbers between 0 and 7 (# of possible letter options)
+    for (let i = 0; i <8; i++) {
+        //creates random numbers between 0 and 7
         let randomNumber = Math.floor((Math.random() * 8));
 
             _arrayRandomIndex.push(randomNumber);
@@ -268,8 +264,10 @@ randomize(){
             arrayRandomIndex:_arrayRandomIndex
         })
        }
+       //need this in the instance that a 0 (correct letter index) is not selected. if a 0 isn't in the array, 
+       //splice will add a 0 at index of 2, removing 1 item. 
        else {
-           _arrayRandomIndex.splice(1, 1, 0);
+           _arrayRandomIndex.splice(2, 1, 0);
             this.setState({
             arrayRandomIndex:_arrayRandomIndex
         })
@@ -279,13 +277,20 @@ randomize(){
  
 }
 
+//play image description
+
+playSong(e, ref){
+    e.preventDefault();
+      console.log(imageSounds[this.state.randomImageIndex]);
+        const player = ref;
+        player.play();
+  
+}
+
+
 render() {
         let fullHint= this.state.imageText[this.state.randomImageIndex];
-        let arrayLetters = [fullHint.charAt(0), "s", "f", "n", "t", "r", "o", "p", "q"]
-        
-        // const elapse = Math.round(this.state.elapsed / 100);
-        // const seconds = (elapse / 10).toFixed(1); 
-
+        let arrayLetters = [fullHint.charAt(0), "s", "f", "n", "t", "r", "z", "a"];
 
 return (
   
@@ -306,27 +311,30 @@ return (
           generateRandomNumber={this.generateRandomNumber}
           images={this.props.images}
           randomImageIndex={this.state.randomImageIndex}
+          imageSounds={this.props.imageSounds}
+          playSong={this.playSong}
+
+
         />
 
         <LetterBox
-        arrayLetters={arrayLetters}
-        arrayRandomIndex={this.state.arrayRandomIndex}
-        isHovering={this.state.isHovering}
-        handleMouseOver={this.handleMouseOver}
-        handleMouseOut={this.handleMouseOut}
-    
-        selected={this.state.selected}
-        correct={this.state.correct}
-        selectedLetter={this.state.selectedLetter}
+            arrayLetters={arrayLetters}
+            arrayRandomIndex={this.state.arrayRandomIndex}
+            isHovering={this.state.isHovering}
+            handleMouseOver={this.handleMouseOver}
+            handleMouseOut={this.handleMouseOut}
+            selected={this.state.selected}
+            correct={this.state.correct}
+            selectedLetter={this.state.selectedLetter}
         />
 
 </div>  
          <AnswerBox
-         correct={this.state.correct}
-         score={this.state.score}
-         numberOfAttempts={this.state.numberOfAttempts}
-         negativeScore={this.state.negativeScore}
-         
+            correct={this.state.correct}
+            score={this.state.score}
+            numberOfAttempts={this.state.numberOfAttempts}
+            negativeScore={this.state.negativeScore}
+            
           />
 
   
@@ -335,7 +343,7 @@ return (
             randomImageIndex={this.state.randomImageIndex}
             totalTime={this.state.totalTime}
             pause={this.pause}     
-            play={this.play}
+            playTimer={this.playTimer}
             submitLetter={this.submitLetter}
             handleSave={this.handleSave}
        />
@@ -347,10 +355,20 @@ return (
 class PhotoBox extends Component {
 
    render() {
+ 
       return (
+          <div>
+     
+
          <div className="smallBoxLiteracy1">
          
            <img id="photoLiteracy" role="presentation" src={images[this.props.randomImageIndex]} />
+        </div>
+
+           <audio ref="player" src={imageSounds[this.props.randomImageIndex]}></audio>
+           <button onClick={(e) => this.props.playSong(e, this.refs.player)} className="audioButton">
+                 <span className="glyphicon glyphicon-volume-up"></span>
+              </button>
         </div>
      )
    }
@@ -442,22 +460,8 @@ class LetterBox extends Component {
                     onMouseLeave={(e) => this.props.handleMouseOut(7)}>
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[7]]}</h2></div>
 
-      
-
-            <div id="letterBox"
-                  className={this.props.selected[8] ? "selected":null}
-                   style={this.props.isHovering[8] ? style:null} 
-                    onMouseEnter={(e)=>this.props.handleMouseOver(8)}
-                    onMouseLeave={(e) => this.props.handleMouseOut(8)}>
-                <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[8]]}</h2></div>
-            <div id="emptyLetterBox"></div>
-             <div id="emptyLetterBox"></div>
-             <div id="emptyLetterBox"></div>
-            <div id="emptyLetterBox"></div>
-            <div id="emptyLetterBox"></div>
-            <div id="emptyLetterBox"></div>
-             <div id="emptyLetterBox"></div>
-                <div id="emptyLetterBox"></div>
+    
+    
        
        </div> 
        </div>  
@@ -515,13 +519,13 @@ render(){
                 <div className="timerContainer col-lg-4 col-md-12 col-sm-12 col-xs-12">
                      <div className="tinyTimer">
                         <h4>Total Time:  {this.props.totalTime} seconds</h4>
-                        <button onClick={(e)=>this.props.play(e)}><span className="glyphicon glyphicon-play"></span></button>
+                        <button onClick={(e)=>this.props.playTimer(e)}><span className="glyphicon glyphicon-play"></span></button>
                         <button onClick={(e)=>this.props.pause(e)}><span className="glyphicon glyphicon-pause"></span></button>
                     </div>
                 </div>
 
                 <div className="buttonsContainer col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                    <button className="btn-circle" type="button" onClick={()=> this.props.submitLetter()}>Submit</button>
+                    <button className="btn-circle" type="button" onClick={(e)=> this.props.submitLetter(e)}>Submit</button>
                     <button className="btn-circle" type="button"><Link to="/">Home</Link></button>
                 </div>
 

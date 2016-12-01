@@ -53,11 +53,11 @@ render() {
  
         return (
       <div className="homeBody">
-        <div className="App-header">
+            <div className="App-header">
             
-            <h1 className="title">fun! game!</h1>
+                  <h1 className="title">fun! game!</h1>
        
-         </div>
+            </div>
      
              <ul className='nav'>
                   <li><h1><Link to="/literacy1">Literacy 1</Link></h1></li>
@@ -68,15 +68,15 @@ render() {
 
             <div className="inputForm">
             <form className="homePageInput" onSubmit={this.submitName}>
-                  <label><h2>Name: </h2></label><input type="text" className="inputSpellPicture" name="student_name" value={this.state.student_name} onChange={this.handleChangeName}></input>
-                  <label><h2>ID: </h2></label><input type="text" className="inputSpellPicture" name="student_ID" value={this.state.student_ID} onChange={this.handleChangeID}></input>
+                  <label><h4>Name: </h4></label><input type="text" className="inputSpellPicture" name="student_name" value={this.state.student_name} onChange={this.handleChangeName}></input>
+                  <label><h4>ID: </h4></label><input type="text" className="inputSpellPicture" name="student_ID" value={this.state.student_ID} onChange={this.handleChangeID}></input>
            
                     <input type="submit" value="Submit" />
             </form>
             </div>
 
        
-</div>         
+      </div>         
         )
 
       }

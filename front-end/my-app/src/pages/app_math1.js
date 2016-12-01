@@ -79,7 +79,7 @@ tick() {
 handleSave(e){
 e.preventDefault();
 
-axios.post('http://localhost:8080/api/scores/', {
+axios.post('http://35.163.164.137/api/scores/', {
     // student_ID: this.state.student_ID (from local storage)
 
     student_ID: this.state.student_ID,
@@ -170,9 +170,12 @@ let answer = this.state.answer;
                 score:this.state.score + 1,
                 attempts: this.state.attempts+1
             })
+
+            this.generateRandomPicture();
         }
         else {
             this.setState({
+            correct:false,    
             negativeScore:this.state.negativeScore-1,
             attempts: this.state.attempts+1
     })
@@ -246,7 +249,7 @@ class ScoreCard extends Component{
             <div className="smallBox1withBorder">
                 <h3>Number Correct: {this.props.score}</h3>
                 <h3>Number of Attempts: {this.props.attempts}</h3>
-                <h3 className={this.props.correct ? "success":null}>{this.props.correct ? "Success! Awesome!":"Keep trying"}</h3>
+                <h3 className="success">{this.props.correct ? "Success! Awesome!":"Keep trying"}</h3>
             </div>
         )
     }
