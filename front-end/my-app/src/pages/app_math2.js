@@ -69,6 +69,10 @@ componentDidMount(){
 
 }
 
+componentWillUnmount(){
+      clearInterval(this.timer);
+}
+
 play(tick){
     this.timer = setInterval(this.tick, 1000);
 }
@@ -88,10 +92,6 @@ tick() {
     })
 }
 
-componentWillMount(){
-
-}
- 
  generateRandomPhotos(){
     this.clearPhotos();
     this.moreOrLess();

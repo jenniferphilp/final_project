@@ -59,6 +59,12 @@ super(props);
 componentDidMount(){
     this.play();
 }
+
+componentWillUnmount(){
+      clearInterval(this.timer);
+}
+
+
 play(tick){
     // e.preventDefault();
      this.timer = setInterval(this.tick, 1000);
@@ -180,9 +186,19 @@ let answer = this.state.answer;
             attempts: this.state.attempts+1
     })
     }
-
-
 }
+
+
+//play instruction
+
+playSong(e, ref){
+    e.preventDefault();
+        const player = ref;
+        player.play();
+  
+}
+
+
 
 render() {
 
@@ -201,6 +217,7 @@ render() {
                  <InputBox
                     itemName={this.state.itemName}
                     handleAnswer={this.handleAnswer}
+                    playSong={this.playSong}
 
                     />
                     <Photos
@@ -237,6 +254,10 @@ class InputBox extends Component{
                 <div className="inputBoxMath1">
                     <h1 className="instructions">Count each {this.props.itemName}!</h1>
                     <input type="number"  autoComplete="off" className="inputMathAnswer inputSpellPicture" onChange={this.props.handleAnswer}/>
+                <audio ref="player" src='/AUDIO/howmany.mp3'></audio>
+                    <button onClick={(e) => this.props.playSong(e, this.refs.player)} className="audioButton">
+                        <span className="glyphicon glyphicon-volume-up"></span>
+                    </button>
                 </div>
 
         )

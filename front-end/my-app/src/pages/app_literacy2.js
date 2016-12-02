@@ -19,6 +19,8 @@ import bat from '../img/bat.png';
 
 const images = [baby, car, mouse, computer, bear, cat, dog, ball, bed, bat]
 
+const imageSounds = ['/AUDIO/baby.mp3', '/AUDIO/car.mp3','/AUDIO/mouse.mp3','AUDIO/computer.mp3','AUDIO/bear.mp3','AUDIO/cat.mp3','AUDIO/dog.mp3','AUDIO/ball.mp3','AUDIO/bed.mp3','AUDIO/bat.mp3'];
+
 
 class App extends Component {
 
@@ -53,10 +55,28 @@ class App extends Component {
     
     this.tick=this.tick.bind(this);
     this.pause=this.pause.bind(this);
-    this.play=this.play.bind(this);
-
+    this.playTimer=this.playTimer.bind(this);
+    this.playSong=this.playSong.bind(this);
+    this.playInstruction=this.playInstruction.bind(this);
 
   };
+
+
+//play Instruction
+  playInstruction(e, ref){
+    e.preventDefault();
+      const player2 = ref;
+        player2.play();
+  
+}
+//play image description
+  playSong(e, ref){
+    e.preventDefault();
+      console.log(imageSounds[this.state.randomImageIndex]);
+        const player = ref;
+        player.play();
+  
+}
 generateRandomNumber (randomNumber) {
    
    this.createHint();
@@ -171,11 +191,15 @@ axios.post('http://35.163.164.137/api/scores/', {
 
 
 componentDidMount(){
-    this.play();
+    this.playTimer();
+}
+
+componentWillUnmount(){
+      clearInterval(this.timer);
 }
 
 
-play(tick){
+playTimer(tick){
     // e.preventDefault();
      this.timer = setInterval(this.tick, 1000);
 }
@@ -203,9 +227,6 @@ tick() {
   let hintFirstLetter = (hint.charAt(0));
 
 
-
-   
-
       return (
   
       <div className="App">
@@ -220,9 +241,13 @@ tick() {
       <div className="container">
 
         <PhotoBox
-          generateRandomNumber={this.generateRandomNumber}
+        
           images={this.props.images}
           randomImageIndex={this.state.randomImageIndex}
+          imageSounds={this.props.imageSounds}
+          playSong={this.playSong}
+          imageText={this.state.imageText}
+
         />
 
         <SpellingChecker
@@ -231,16 +256,10 @@ tick() {
           showHint={this.state.negativeScore <= -4 ? " ":"hideHint"}
          spacesForHint={this.state.spacesForHint}
          hintFirstLetter={hintFirstLetter}
+         playInstruction={this.playInstruction}
         />
 
-       
-
-      
-
     </div> 
-
-  
-
 
           <ScoreCard
           resetScore={this.resetScore}
@@ -269,9 +288,15 @@ class PhotoBox extends Component {
 
    render() {
       return (
-         <div className="smallBox1">
-           <img id="photoLiteracy" role="presentation" src={images[this.props.randomImageIndex]} />
-        </div>
+        <div> 
+            <div className="smallBox1">
+                <img alt={this.props.imageText[this.props.randomImageIndex]} id="photoLiteracy" role="presentation" src={images[this.props.randomImageIndex]} />
+            </div>
+            <audio ref="player" src={imageSounds[this.props.randomImageIndex]}></audio>
+               <button onClick={(e) => this.props.playSong(e, this.refs.player)} className="audioButton">
+                  <span className="glyphicon glyphicon-volume-up"></span>
+              </button>
+        </div>      
      )
    }
  }
@@ -281,10 +306,15 @@ class SpellingChecker extends Component{
     return(
     <div className="smallBox1">
           <form onSubmit={this.props.checkSpelling}>
-              <h1 className="instructions">Spell the word in the picture:</h1><br></br>
+              <h1 className="instructions">Spell the word:</h1>    
+              <audio ref='player2' src='/AUDIO/spelltheword.mp3'></audio>
+               <button onClick={(e) => this.props.playInstruction(e, this.refs.player2)} className="audioButton">
+                    <span className="glyphicon glyphicon-volume-up litTwoAudio"></span>
+              </button> 
               <input type="text"  autoComplete="off" name="spellPicture" className="inputSpellPicture" onChange={this.props.handleTextChange}/>
-                   
+                
           </form>  
+           
           <div className="fadeIn">
               <div className={this.props.showHint}>
                   <h1 className="hint">Here's a Hint: <br></br>
@@ -334,7 +364,7 @@ render(){
                 <div className="timerContainer col-lg-4 col-md-12 col-sm-12 col-xs-12">
                      <div className="tinyTimer">
                         <h4>Total Time:  {this.props.totalTime} seconds</h4>
-                        <button onClick={(e)=>this.props.play(e)}><span className="glyphicon glyphicon-play"></span></button>
+                        <button onClick={(e)=>this.props.playTimer(e)}><span className="glyphicon glyphicon-play"></span></button>
                         <button onClick={(e)=>this.props.pause(e)}><span className="glyphicon glyphicon-pause"></span></button>
                     </div>
                 </div>

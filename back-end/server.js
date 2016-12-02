@@ -7,8 +7,10 @@ const mongoose = require('mongoose');
 const PORT = process.env.PORT || 8080;
 
 
+//COMMENT THIS OUT TO RUN REACT APP ON LOCAL HOST 3000
+//  app.use(express.static(__dirname + '/build'));
 
- app.use(express.static(__dirname + '/build'));
+
 
 // app.use(express.static('public'));
 

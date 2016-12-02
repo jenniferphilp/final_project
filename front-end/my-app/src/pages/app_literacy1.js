@@ -30,6 +30,7 @@ class App extends Component {
 
     this.state = {
         images:this.props.images,
+        imageSounds:this.props.imageSounds,
         randomImageIndex:0,
         //10 possible pictures
         imageText:["baby", "car", "mouse", "computer", "bear", "cat", "dog", "ball", "bed", "bat"],
@@ -74,9 +75,6 @@ axios.post('http://35.163.164.137/api/scores/', {
     // student_ID: this.state.student_ID,
   //this is saved from home page using cookies
     //
-
-    
-
     student_ID: this.state.student_ID,
     gameType: "Literacy 1",
     percent:((this.state.score)/(this.state.numberOfAttempts)*100),
@@ -107,6 +105,11 @@ axios.post('http://35.163.164.137/api/scores/', {
 componentDidMount(){
     this.playTimer();
 }
+
+componentWillUnmount(){
+      clearInterval(this.timer);
+}
+
 
 
 playTimer(tick){
@@ -310,11 +313,11 @@ return (
          
          
        <PhotoBox
-          generateRandomNumber={this.generateRandomNumber}
-          images={this.props.images}
-          randomImageIndex={this.state.randomImageIndex}
-          imageSounds={this.props.imageSounds}
-          playSong={this.playSong}
+            imageText={this.state.imageText}
+            images={this.props.images}
+            randomImageIndex={this.state.randomImageIndex}
+            imageSounds={this.props.imageSounds}
+            playSong={this.playSong}
 
 
         />
@@ -353,6 +356,7 @@ return (
 </div>
 )}}
 
+// alt={imageText[this.props.randomImageIndex]}
 
 class PhotoBox extends Component {
 
@@ -364,7 +368,7 @@ class PhotoBox extends Component {
 
          <div className="smallBoxLiteracy1">
          
-           <img id="photoLiteracy" role="presentation" src={images[this.props.randomImageIndex]} />
+           <img alt={this.props.imageText[this.props.randomImageIndex]} id="photoLiteracy" role="presentation" src={images[this.props.randomImageIndex]} />
         </div>
 
            <audio ref="player" src={imageSounds[this.props.randomImageIndex]}></audio>
