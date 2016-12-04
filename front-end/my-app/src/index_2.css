@@ -1,10 +1,11 @@
 body {
   margin: 0px;
-  padding: 10px;
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  background-image: url('../src/img/geometry2.png');
+  background-repeat: repeat;
 }
 
-.popup{
+.popup {
   max-width:200px;
   font-size:20px;
   color: deeppink;
@@ -12,37 +13,32 @@ body {
   margin:auto;
 }
 
-@font-face {
-  font-family: myFirstFont;
-  src: url("../public/KBZipaDeeDooDah.ttf");
-}
-
 /*//need to select all the h1's that have an a tag*/
-li a{
-color:black;
+li a {
+  color:black;
 }
 
-h1.title{
-font-size:120px;
-font-family:'myFirstFont';
-color: #EBE6D6;
-text-shadow: 3px 0 0 black;
--webkit-text-stroke:0.5px black;
-
+.title {
+  font-size:120px;
+  font-family: 'Bungee', cursive;
+  color: White;
+  text-shadow: 3px 0 0 black;
+  -webkit-text-stroke:0.5px black;
 }
 
 @media only screen and (max-width: 500px) {
-h1.title{
+.title{
   font-size:60px;
-}
+  }
 }
 
 h1.instructions{
-  font-size:50px;
+  font-size: 50px;
 }
 
 .nav{
     list-style-type: none;
+    background-color: #F0B835;
     margin: 0;
     padding: 0;
     border-bottom:1px solid black;
@@ -65,7 +61,7 @@ li{
 }
 
 .App-header {
-  background-color: dimgray;
+  background-color: #4ABDAC;
   height: 30%;
   padding: 30px;
   color: white;
@@ -115,14 +111,13 @@ margin:10px;
 /*
 css conditional styling for state change 'selected'*/
 .selected{
-  background-color: lightblue;
-  border: 2px solid darkblue;
+  background-color: #FE491A;
 }
 
 
 
 .tinyTimerMath2{
-  background-color:grey;
+  background-color: #FE491A;
   width:220px;
   height:90px;
   border:1px solid lightslategrey;
@@ -170,8 +165,6 @@ ________________________________________________________________________________
   padding:20px;
   margin:10px;
   margin-left:5%;
-  border: 6px solid white;
-
 }
 
 @keyframes fadeIn {
@@ -210,6 +203,7 @@ float:left;
 
 /*this is still inside main container*/
   .smallBox1withBorderLit2 {
+    background-color: white;
     border:1px solid lightslategrey;
     border-radius: 10px;
     border-width:3px;
@@ -220,6 +214,7 @@ float:left;
   }
 
  .scoreCardMath2{
+    background-color: white;
     border:1px solid lightslategrey;
     border-radius: 10px;
     border-width:3px;
@@ -242,8 +237,6 @@ float:left;
   .smallBoxLiteracy1 {
     padding:10px;
     flex-grow:1;
- 
-  
  }
   
   #photoLiteracy{
@@ -263,13 +256,13 @@ float:left;
 
 /*//took this out of flexbox main container*/
   .smallBox1withBorder {
+    background-color: white;
     border:1px solid lightslategrey;
     border-radius: 10px;
     border-width:3px;
     padding:10px;
-    max-width:70%;
-    margin-left:20%;
-    margin-right:20%;
+    max-width:40%;
+    margin: 0 auto;
 }
 
 #letterContainer{
@@ -330,7 +323,7 @@ margin-top:10%;
 }
 
 .tinyTimer{
- background-color:grey;
+ background-color:#FE491A;
  border-radius: 10px;
  padding:4px;
  
@@ -344,16 +337,16 @@ margin-top:10%;
  margin:10px;
  font-size: 25px;
   border-radius: 50px;
-background-color:mediumseagreen;
-border:2px solid mediumseagreen;
+background-color: #F0B835;
+border:2px solid #F0B835;
 text-decoration:none;
 
 
 } 
-.btn-circle:hover {background-color: #3e8e41}
+.btn-circle:hover {background-color: #FE491A}
 
 .btn-circle:active {
-  background-color: #3e8e41;
+  background-color: #FE491A;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
@@ -363,9 +356,9 @@ a {
   color:white;
 }
 .audioButton{
-     background: transparent;
-    border: none;
-    float:left;
+  background: transparent;
+  border: none;
+  float:left;
 }
 
 .glyphicon-volume-up{
@@ -374,5 +367,5 @@ a {
 }
 
 .litTwoAudio{
-color:blue;
+color:#FE491A;
 }

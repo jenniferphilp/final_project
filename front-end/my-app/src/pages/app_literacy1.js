@@ -385,7 +385,7 @@ class LetterBox extends Component {
     render () {
         
         const style ={
-            backgroundColor: 'blue'}
+            backgroundColor: '#FE491A'}
 
 
         
