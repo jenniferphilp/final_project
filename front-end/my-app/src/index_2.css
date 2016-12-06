@@ -1,9 +1,15 @@
 body {
   margin: 0px;
+<<<<<<< HEAD
   font-family: sans-serif;
+=======
+  font-family: 'Open Sans', sans-serif;
+  background-image: url('../src/img/geometry2.png');
+  background-repeat: repeat;
+>>>>>>> 0a4e6ddeaa28c45ad1aaec6710a8d150f678f61f
 }
 
-.popup{
+.popup {
   max-width:200px;
   font-size:20px;
   color: deeppink;
@@ -11,29 +17,24 @@ body {
   margin:auto;
 }
 
-@font-face {
-  font-family: myFirstFont;
-  src: url("../public/KBZipaDeeDooDah.ttf");
-}
-
 /*//need to select all the h1's that have an a tag*/
-li a{
-color:black;
+li a {
+  color:black;
 }
 
-h1.title{
-font-size:120px;
-font-family:'myFirstFont';
-color: #EBE6D6;
-text-shadow: 3px 0 0 black;
--webkit-text-stroke:0.5px black;
-
+.title {
+  font-size:120px;
+  font-family: 'Bungee', cursive;
+  color: White;
+  text-shadow: 3px 0 0 black;
+  -webkit-text-stroke:0.5px black;
 }
 
 /*//handles re-sizing on mobile and tablet*/
 @media only screen and (max-width: 500px) {
-h1.title{
+.title{
   font-size:60px;
+<<<<<<< HEAD
 }
 .inputSpellPicture{
   font-size: 12px;
@@ -44,15 +45,19 @@ h1.title{
 .inputBoxMath1{
   font-size:12px;
 }
+=======
+  }
+>>>>>>> 0a4e6ddeaa28c45ad1aaec6710a8d150f678f61f
 }
 
 
 h1.instructions{
-  font-size:50px;
+  font-size: 50px;
 }
 
 .nav{
     list-style-type: none;
+    background-color: #F0B835;
     margin: 0;
     padding: 0;
     border-bottom:1px solid black;
@@ -75,7 +80,7 @@ li{
 }
 
 .App-header {
-  background-color: dimgray;
+  background-color: #4ABDAC;
   height: 30%;
   padding: 30px;
   color: white;
@@ -141,15 +146,21 @@ margin-top:10%;
 
 /*
 css conditional styling for state change 'selected'*/
+<<<<<<< HEAD
 /*.selected{
   background-color: lightblue;
   border: 2px solid darkblue;
 }*/
+=======
+.selected{
+  background-color: #FE491A;
+}
+>>>>>>> 0a4e6ddeaa28c45ad1aaec6710a8d150f678f61f
 
 
 
 .tinyTimerMath2{
-  background-color:grey;
+  background-color: #FE491A;
   width:220px;
   height:90px;
   border:1px solid lightslategrey;
@@ -197,8 +208,6 @@ ________________________________________________________________________________
   padding:20px;
   margin:10px;
   margin-left:5%;
-  border: 6px solid white;
-
 }
 
 
@@ -224,6 +233,7 @@ ________________________________________________________________________________
 
 /*this is still inside main container*/
   .smallBox1withBorderLit2 {
+    background-color: white;
     border:1px solid lightslategrey;
     border-radius: 10px;
     border-width:3px;
@@ -234,6 +244,7 @@ ________________________________________________________________________________
   }
 
  .scoreCardMath2{
+    background-color: white;
     border:1px solid lightslategrey;
     border-radius: 10px;
     border-width:3px;
@@ -256,8 +267,6 @@ ________________________________________________________________________________
   .smallBoxLiteracy1 {
     padding:10px;
     flex-grow:1;
- 
-  
  }
   
   #photoLiteracy{
@@ -277,13 +286,13 @@ ________________________________________________________________________________
 
 /*//took this out of flexbox main container*/
   .smallBox1withBorder {
+    background-color: white;
     border:1px solid lightslategrey;
     border-radius: 10px;
     border-width:3px;
     padding:10px;
-    max-width:70%;
-    margin-left:20%;
-    margin-right:20%;
+    max-width:40%;
+    margin: 0 auto;
 }
 
 #letterContainer{
@@ -336,7 +345,7 @@ ________________________________________________________________________________
 }
 
 .tinyTimer{
- background-color:grey;
+ background-color:#FE491A;
  border-radius: 10px;
  padding:4px;
  
@@ -350,16 +359,16 @@ ________________________________________________________________________________
  margin:10px;
  font-size: 25px;
   border-radius: 50px;
-background-color:mediumseagreen;
-border:2px solid mediumseagreen;
+background-color: #F0B835;
+border:2px solid #F0B835;
 text-decoration:none;
 
 
 } 
-.btn-circle:hover {background-color: #3e8e41}
+.btn-circle:hover {background-color: #FE491A}
 
 .btn-circle:active {
-  background-color: #3e8e41;
+  background-color: #FE491A;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
@@ -369,9 +378,9 @@ a {
   color:white;
 }
 .audioButton{
-     background: transparent;
-    border: none;
-    float:left;
+  background: transparent;
+  border: none;
+  float:left;
 }
 
 .glyphicon-volume-up{
@@ -380,5 +389,5 @@ a {
 }
 
 .litTwoAudio{
-color:blue;
+color:#FE491A;
 }
