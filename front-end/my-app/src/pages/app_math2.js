@@ -362,10 +362,10 @@ render() {
 		let style = {};
 		
             if (this.props.selected[0]){
-                style["backgroundColor"] = "lightYellow"
+                style["backgroundColor"] = "white"
                 style["border"]="solid"
                 style["borderRadius"]=50   
-                style["borderColor"] = "darkBlue"
+                style["borderColor"] = "#F0B835"
                 style["borderWidth"]= 6
 
             }
@@ -375,10 +375,10 @@ render() {
     let findStyle2 = () => {
         let style = {};
         if (this.props.selected[1]){
-                style["backgroundColor"] = "lightYellow"
+                style["backgroundColor"] = "white"
                 style["border"]="solid"
                 style["borderRadius"]=50   
-                style["borderColor"] = "darkBlue"
+                style["borderColor"] = "#F0B835"
                 style["borderWidth"]= 6
 
             }
