@@ -6,6 +6,8 @@ const ScoresSchema = new Schema({
 
 student_ID: Number,
 gameType: String,
+correct:Number,
+attempts:Number,
 percent: Number,
 totalTime: Number,
 createdAt:Date

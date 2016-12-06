@@ -85,7 +85,8 @@ generateRandomNumber (randomNumber) {
 
         this.setState({
           randomImageIndex:randomNumber,
-          negativeScore:0
+          negativeScore:0,
+        
          })
 
      if (this.state.correct){
@@ -99,7 +100,7 @@ generateRandomNumber (randomNumber) {
   }
  
 
-
+//hint is created; only displayed once negative score = -4
     createHint (){
    
         const numberOfSpaces = (this.state.imageText[this.state.randomImageIndex].length) - 1; 
@@ -114,7 +115,7 @@ generateRandomNumber (randomNumber) {
 
     }
   
-
+//handles upper and lower case submissions
 handleTextChange(e){
   let submittedText = e.target.value
   let submittedTextLowerCase = submittedText.toLowerCase();
@@ -130,9 +131,11 @@ handleTextChange(e){
     this.setState({
       correct:true,
       score:this.state.score + 1, 
-      newText:this.state.newText,
+      newText:" ",
+      // newText:this.state.newText,
       spacesForHint:this.state.spacesForHint,
-      numberOfAttempts: this.state.numberOfAttempts+1
+      numberOfAttempts: this.state.numberOfAttempts+1,
+
    
   })
 
@@ -143,7 +146,7 @@ handleTextChange(e){
   else if (this.state.newText !== this.state.imageText[this.state.randomImageIndex]){
     this.setState({
       correct:false,
-      newText:"",
+      newText:" ",
       negativeScore:this.state.negativeScore - 1,
       numberOfAttempts: this.state.numberOfAttempts+1
 
@@ -257,6 +260,8 @@ tick() {
          spacesForHint={this.state.spacesForHint}
          hintFirstLetter={hintFirstLetter}
          playInstruction={this.playInstruction}
+        
+
         />
 
     </div> 
@@ -305,13 +310,13 @@ class SpellingChecker extends Component{
   render() {
     return(
     <div className="smallBox1">
-          <form onSubmit={this.props.checkSpelling}>
+          <form>
               <h1 className="instructions">Spell the word:</h1>    
               <audio ref='player2' src='/AUDIO/spelltheword.mp3'></audio>
                <button onClick={(e) => this.props.playInstruction(e, this.refs.player2)} className="audioButton">
                     <span className="glyphicon glyphicon-volume-up litTwoAudio"></span>
               </button> 
-              <input type="text"  autoComplete="off" name="spellPicture" className="inputSpellPicture" onChange={this.props.handleTextChange}/>
+              <input type="text"  autoComplete="off" name="spellPicture" value={this.props.newText} className="inputSpellPicture" onChange={this.props.handleTextChange}/>
                 
           </form>  
            

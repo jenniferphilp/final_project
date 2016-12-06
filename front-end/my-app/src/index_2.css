@@ -1,6 +1,5 @@
 body {
   margin: 0px;
-  padding: 10px;
   font-family: sans-serif;
 }
 
@@ -31,11 +30,22 @@ text-shadow: 3px 0 0 black;
 
 }
 
+/*//handles re-sizing on mobile and tablet*/
 @media only screen and (max-width: 500px) {
 h1.title{
   font-size:60px;
 }
+.inputSpellPicture{
+  font-size: 12px;
 }
+#smallPhotoMath{
+  width:70px;
+}
+.inputBoxMath1{
+  font-size:12px;
+}
+}
+
 
 h1.instructions{
   font-size:50px;
@@ -83,9 +93,7 @@ margin:10px;
 }
 
 @media only screen and (max-width: 500px) {
-#smallPhotoMath{
-  width:70px;
-}
+
 }
 
 .inputSpellPicture {
@@ -96,6 +104,25 @@ margin:10px;
   margin-bottom:10px;
   text-align: center;
 }
+
+
+.inputBoxMath1{
+float:left;
+
+}
+
+.homePageInput{
+position:center;
+margin:auto;
+}
+
+/*div for input form on home page*/
+.inputForm{
+margin-left:30%;
+margin-top:10%;
+
+}
+
 
 .success {
   color:red;
@@ -114,10 +141,10 @@ margin:10px;
 
 /*
 css conditional styling for state change 'selected'*/
-.selected{
+/*.selected{
   background-color: lightblue;
   border: 2px solid darkblue;
-}
+}*/
 
 
 
@@ -174,15 +201,6 @@ ________________________________________________________________________________
 
 }
 
-@keyframes fadeIn {
-	0% { opacity: 0 }
-	100% { opacity: 1 }
-}
-
-.fadeIn {
-	animation-name: fadeIn;
-	opacity: 1;
-}
 
 /*container for Lit*/
 .container{
@@ -202,10 +220,6 @@ ________________________________________________________________________________
 }
 
 
-.inputBoxMath1{
-float:left;
-
-}
 
 
 /*this is still inside main container*/
@@ -295,17 +309,9 @@ float:left;
 
 
 }
-.homePageInput{
-position:center;
-margin:auto;
-}
-
-.inputForm{
-margin-left:30%;
-margin-top:10%;
 
 
-}
+
 
 .controlPanel{
  height: 100%;

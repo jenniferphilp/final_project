@@ -253,7 +253,7 @@ class InputBox extends Component{
         return(
                 <div className="inputBoxMath1">
                     <h1 className="instructions">Count each {this.props.itemName}!</h1>
-                    <input type="number"  autoComplete="off" className="inputMathAnswer inputSpellPicture" onChange={this.props.handleAnswer}/>
+                    <input type="number"  autoComplete="off" className="inputSpellPicture" onChange={this.props.handleAnswer}/>
                 <audio ref="player" src='/AUDIO/howmany.mp3'></audio>
                     <button onClick={(e) => this.props.playSong(e, this.refs.player)} className="audioButton">
                         <span className="glyphicon glyphicon-volume-up"></span>

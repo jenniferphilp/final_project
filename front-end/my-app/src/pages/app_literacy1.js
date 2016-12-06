@@ -35,10 +35,8 @@ class App extends Component {
         //10 possible pictures
         imageText:["baby", "car", "mouse", "computer", "bear", "cat", "dog", "ball", "bed", "bat"],
         //8 spaces for hints
-        isHovering:[false, false, false, false, false, false, false, false],
         arrayRandomIndex:[],
         selected:[false, false, false, false, false, false, false, false],
-
         correct:false,
         selectedLetter: " ",
         score:0,
@@ -52,8 +50,7 @@ class App extends Component {
  };
 
     this.generateRandomNumber=this.generateRandomNumber.bind(this);
-    this.handleMouseOver=this.handleMouseOver.bind(this);
-    this.handleMouseOut=this.handleMouseOut.bind(this);
+    this.selectLetterBox=this.selectLetterBox.bind(this);
     this.randomize=this.randomize.bind(this);
     this.submitLetter=this.submitLetter.bind(this);
     
@@ -71,13 +68,16 @@ class App extends Component {
 handleSave(e){
 e.preventDefault();
 
-axios.post('http://35.163.164.137/api/scores/', {
+//CHANGE BACK TO HOSTED SITE BEFORE DEPLOYMENT
+axios.post('http://localhost:8080/api/scores/', {
     // student_ID: this.state.student_ID,
-  //this is saved from home page using cookies
+  //this is saved from home page using local storage
     //
     student_ID: this.state.student_ID,
     gameType: "Literacy 1",
     percent:((this.state.score)/(this.state.numberOfAttempts)*100),
+    correct:this.state.score,
+    attempts:this.state.numberOfAttempts,
     totalTime: this.state.totalTime
 
     })
@@ -101,6 +101,11 @@ axios.post('http://35.163.164.137/api/scores/', {
  
   })
 }
+
+
+
+
+
 
 componentDidMount(){
     this.playTimer();
@@ -153,65 +158,41 @@ this.randomize();
       
          
         })
-
-
-
     this.setState({
         // 8 spaces for letter hints; resets any selected divs to false
         selected:[false,false,false,false,false,false,false,false]
     
     })
 }
- 
 
 componentWillMount(){
     this.randomize ();
    
 }
 
-//handles mouse over. Sets all hovering/selected divs back to false
-handleMouseOver(index){
 
-    this.setState({
-        isHovering:[false,false,false,false,false,false,false],
-        selected:[false,false,false,false,false,false,false],
-     
-    })
-  
-//sets hovering & selected states of selected div by index value
-//timeout ensures all divs are set to false 1st
-let item = this.state.isHovering;
-item[index] = true;
- 
- //necessary so that isHovering & selected changes to false before item is selected. prevents multiple divs from being selected
- setTimeout(()=> {
+//need ONLY the letterBox selected to true; all else need to be false
+selectLetterBox(index){
+   
+let trueArray = [];
+let _selected = this.state.selected;
+for (let j=0; j < _selected.length; j++){
+    if (j === index){
+        _selected[j]=true;
+    }
+    else{
+        _selected[j]=false;
+    }
 
-    this.setState({
-        isHovering:item,
-        selected:item
-    })
-}, 10)  
-  
+    trueArray.push(_selected[j])
+    
 }
 
-//handles mouse out. ensure all hovering is false. 'Selected' state does not change
-handleMouseOut(index){
-    this.setState({
-        isHovering:[false, false, false, false, false, false, false, false],
-        // selected:[false, false, false, false, false, false, false]
-     
-    })
+this.setState({
+    selected:trueArray
+})
 
-let item = this.state.selected;
-item[index] = true;
-item[!index] = false;
-    
-setTimeout(()=> {
-
-    this.setState({
-        selected:item
-    })
-}, 10)  
+  
 
 //displayed image text
 let fullHint= this.state.imageText[this.state.randomImageIndex];
@@ -325,12 +306,9 @@ return (
         <LetterBox
             arrayLetters={arrayLetters}
             arrayRandomIndex={this.state.arrayRandomIndex}
-            isHovering={this.state.isHovering}
-            handleMouseOver={this.handleMouseOver}
-            handleMouseOut={this.handleMouseOut}
+            selectLetterBox={this.selectLetterBox}
             selected={this.state.selected}
-            correct={this.state.correct}
-            selectedLetter={this.state.selectedLetter}
+           
         />
 
 </div>  
@@ -396,74 +374,70 @@ class LetterBox extends Component {
          <div className="container" id="letterContainer">
          
                 <div id="letterBox" 
-                    className={this.props.selected[0] ? "selected":null}
-                    style={this.props.isHovering[0] ? style:null} 
-                    onMouseEnter={(e)=>this.props.handleMouseOver(0)} 
-                    onMouseLeave={(e) => this.props.handleMouseOut(0)}>
+                   
+                    style={this.props.selected[0] ? style:null} 
+                    onClick={(e)=>this.props.selectLetterBox(0)} 
+                    >
                     <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[0]]}</h2></div>
                
           
 
                 <div id="letterBox"
-                 className={this.props.selected[1] ? "selected":null}
-                   style={this.props.isHovering[1] ? style:null} 
-                    onMouseEnter={(e)=>this.props.handleMouseOver(1)}
-                    onMouseLeave={(e) => this.props.handleMouseOut(1)}>
+               
+                   style={this.props.selected[1] ? style:null} 
+                    onClick={(e)=>this.props.selectLetterBox(1)}
+                  >
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[1]]}</h2></div>
 
      
 
                 <div id="letterBox"
-                  className={this.props.selected[2] ? "selected":null}
-                   style={this.props.isHovering[2] ? style:null} 
-                    onMouseEnter={(e)=>this.props.handleMouseOver(2)}
-                    onMouseLeave={(e) => this.props.handleMouseOut(2)}>
+                 
+                   style={this.props.selected[2] ? style:null} 
+                    onClick={(e)=>this.props.selectLetterBox(2)}
+                    >
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[2]]}</h2></div>
 
  
 
                 <div id="letterBox"
-                  className={this.props.selected[3] ? "selected":null}
-                   style={this.props.isHovering[3] ? style:null} 
-                    onMouseEnter={(e)=>this.props.handleMouseOver(3)}
-                    onMouseLeave={(e)=> this.props.handleMouseOut(3)}>
+               
+                   style={this.props.selected[3] ? style:null} 
+                    onClick={(e)=>this.props.selectLetterBox(3)}
+                    >
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[3]]}</h2></div>
 
    
 
                 <div id="letterBox"
-                  className={this.props.selected[4] ? "selected":null}
-                   style={this.props.isHovering[4] ? style:null} 
-                    onMouseEnter={(e)=>this.props.handleMouseOver(4)}
-                    onMouseLeave={(e) => this.props.handleMouseOut(4)}>
+                
+                   style={this.props.selected[4] ? style:null} 
+                    onClick={(e)=>this.props.selectLetterBox(4)}>
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[4]]}</h2></div>
 
            
 
                 <div id="letterBox"
-                  className={this.props.selected[5] ? "selected":null}
-                   style={this.props.isHovering[5] ? style:null} 
-                    onMouseEnter={(e)=>this.props.handleMouseOver(5)}
-                    onMouseLeave={(e) => this.props.handleMouseOut(5)}>
+                 
+                   style={this.props.selected[5] ? style:null} 
+                    onClick={(e)=>this.props.selectLetterBox(5)}>
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[5]]}</h2></div>
 
          
 
                 <div id="letterBox"
-                  className={this.props.selected[6] ? "selected":null}
-                   style={this.props.isHovering[6] ? style:null} 
-                    onMouseEnter={(e)=>this.props.handleMouseOver(6)}
-                    onMouseLeave={(e) => this.props.handleMouseOut(6)}>
+                
+                   style={this.props.selected[6] ? style:null} 
+                onClick={(e)=>this.props.selectLetterBox(6)}>
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[6]]}</h2></div>
               
         
    
 
             <div id="letterBox"
-                  className={this.props.selected[7] ? "selected":null}
-                   style={this.props.isHovering[7] ? style:null} 
-                    onMouseEnter={(e)=>this.props.handleMouseOver(7)}
-                    onMouseLeave={(e) => this.props.handleMouseOut(7)}>
+                 
+                   style={this.props.selected[7] ? style:null} 
+                  onClick={(e)=>this.props.selectLetterBox(7)}>
                 <h2 className="letter">{this.props.arrayLetters[this.props.arrayRandomIndex[7]]}</h2></div>
 
     

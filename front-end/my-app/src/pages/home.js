@@ -57,12 +57,14 @@ render() {
                   <h1 className="title">fun! game!</h1>
        
             </div>
-          
+        
              <ul className='nav'>
                   <li><h1><Link to="/literacy1">Literacy 1</Link></h1></li>
                   <li><h1><Link to="/literacy2">Literacy 2</Link></h1></li>
                   <li><h1><Link to="/numeracy1">Numeracy 1</Link></h1></li>
                   <li><h1><Link to="/numeracy2">Numeracy 2</Link></h1></li>
+                  <li><h1><Link to="/dataPage">Data</Link></h1></li>
+                  <li><h1><Link to="/about">About</Link></h1></li>
              </ul>
                
                <Popup

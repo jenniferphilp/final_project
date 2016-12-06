@@ -14,9 +14,9 @@ router.get('/', (req, res) => {
 });
 
 
-//GET Endpoint for getting one specific user
-router.get('/:student_name', (req, res) => {
-    Users.find({"student_name":req.params.student_name})
+//GET Endpoint for searching by student ID
+router.get('/:student_ID', (req, res) => {
+    Users.find({"student_ID":req.params.student_ID})
         .then(users => {
             res.json(users);
         })
