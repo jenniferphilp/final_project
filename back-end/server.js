@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 8080;
 
 
 // COMMENT THIS OUT TO RUN REACT APP ON LOCAL HOST 3000
-//  app.use(express.static(__dirname + '/build'));
+ app.use(express.static(__dirname + '/build'));
 
 
 
@@ -26,10 +26,10 @@ app.use(function(req, res, next) {
 
 mongoose.Promise = global.Promise; 
 // connect to local host
-mongoose.connect('mongodb://localhost/data/db/');
+// mongoose.connect('mongodb://localhost/data/db/');
 
 //connect to mLab using name (Jen) and password (argyle)
-// mongoose.connect('mongodb://Jen:argyle@ds113628.mlab.com:13628/final_project');
+mongoose.connect('mongodb://Jen:argyle@ds113628.mlab.com:13628/final_project');
 
 //Seed our users
 const usersToSeed = require('./seeds/Users');

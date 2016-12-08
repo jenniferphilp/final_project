@@ -220,7 +220,7 @@ axios.post('http://35.163.164.137/api/scores/', {
         correct:false,
         score:0,
         negativeScore:0,
-        numberOfAttempts:0,
+        attempts:0,
         totalTime:0
  
   })
@@ -319,6 +319,10 @@ return (
                     <h1 className="title">Welcome {this.state.student_name}!</h1>
   
                 </div>
+
+                {this.props.children}
+
+                
               <div className="containerMath2">
                     <PhotoBox
                     handleMouseOver={this.handleMouseOver}
@@ -426,7 +430,7 @@ class ScoreCard extends Component{
                 <h3>Number Correct: {this.props.score}</h3>
                 <h3>Number of Attempts: {this.props.attempts}</h3>
                 <h3 className={this.props.correct ? "success":"keepTrying"}>{this.props.correct ? "Success! Awesome!":"Keep trying"}</h3>
-                <h3 className="success">{this.props.tie ? "It's A Tie!":" "}</h3>
+             
             </div>
         )
     }

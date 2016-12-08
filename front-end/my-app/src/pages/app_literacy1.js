@@ -69,7 +69,7 @@ handleSave(e){
 e.preventDefault();
 
 //CHANGE BACK TO HOSTED SITE BEFORE DEPLOYMENT
-axios.post('http://localhost:8080/api/scores/', {
+axios.post('http://35.163.164.137/api/scores/', {
     // student_ID: this.state.student_ID,
   //this is saved from home page using local storage
     //
@@ -288,6 +288,8 @@ return (
             
   
         </div>
+
+        {this.props.children}
     
  <h1 className="instructions">Choose the first sound in the word:</h1>
  <div className="container">

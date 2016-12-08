@@ -117,6 +117,7 @@ generateRandomNumber (randomNumber) {
   
 //handles upper and lower case submissions
 handleTextChange(e){
+  e.preventDefault();
   let submittedText = e.target.value
   let submittedTextLowerCase = submittedText.toLowerCase();
 	  this.setState({newText:submittedTextLowerCase})
@@ -168,8 +169,9 @@ axios.post('http://35.163.164.137/api/scores/', {
     student_ID:this.state.student_ID,
     gameType: "Literacy 2",
     percent:((this.state.score)/(this.state.numberOfAttempts)*100),
+    correct:this.state.score,
+    attempts:this.state.numberOfAttempts,
     totalTime: this.state.totalTime
-
     })
 
   .then(function (response) {
@@ -240,6 +242,8 @@ tick() {
             
   
         </div>
+
+        {this.props.children}
           
       <div className="container">
 
@@ -304,21 +308,23 @@ class PhotoBox extends Component {
         </div>      
      )
    }
- }
+ } 
 
 class SpellingChecker extends Component{
   render() {
     return(
     <div className="smallBox1">
-          <form>
+        
               <h1 className="instructions">Spell the word:</h1>    
               <audio ref='player2' src='/AUDIO/spelltheword.mp3'></audio>
                <button onClick={(e) => this.props.playInstruction(e, this.refs.player2)} className="audioButton">
                     <span className="glyphicon glyphicon-volume-up litTwoAudio"></span>
               </button> 
-              <input type="text"  autoComplete="off" name="spellPicture" value={this.props.newText} className="inputSpellPicture" onChange={this.props.handleTextChange}/>
+
+  
+              <input type="text"  autoComplete="off" name="spellPicture" value={this.props.newText} className="inputSpellPicture" onChange={(e) => this.props.handleTextChange(e)}/>
                 
-          </form>  
+          
            
           <div className="fadeIn">
               <div className={this.props.showHint}>

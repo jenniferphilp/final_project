@@ -54,16 +54,16 @@ router.delete('/:percent', (req, res) => {
 
 })
 
-//get endpoint for getting all scores
-router.get('/', (req, res) => {
-    Scores.find({})
-        .then(scores => {
-            res.json(scores);
-        })
-        .catch(err => {
-            res.status(500).send(err);
-        })
-});
+// get endpoint for getting all scores
+// router.get('/', (req, res) => {
+//     Scores.find({})
+//         .then(scores => {
+//             res.json(scores);
+//         })
+//         .catch(err => {
+//             res.status(500).send(err);
+//         })
+// });
 
 //get endpoint for searching by percent
 // router.get('/percent', (req, res) => {

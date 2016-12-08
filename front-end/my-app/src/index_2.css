@@ -1,20 +1,17 @@
 body {
   margin: 0px;
-<<<<<<< HEAD
-  font-family: sans-serif;
-=======
   font-family: 'Open Sans', sans-serif;
   background-image: url('../src/img/geometry2.png');
   background-repeat: repeat;
->>>>>>> 0a4e6ddeaa28c45ad1aaec6710a8d150f678f61f
 }
 
 .popup {
   max-width:200px;
   font-size:20px;
-  color: deeppink;
-  opacity:1;
+  background-color: #4ABDAC;
+  opacity:0.8;
   margin:auto;
+  border:1px solid grey
 }
 
 /*//need to select all the h1's that have an a tag*/
@@ -30,25 +27,6 @@ li a {
   -webkit-text-stroke:0.5px black;
 }
 
-/*//handles re-sizing on mobile and tablet*/
-@media only screen and (max-width: 500px) {
-.title{
-  font-size:60px;
-<<<<<<< HEAD
-}
-.inputSpellPicture{
-  font-size: 12px;
-}
-#smallPhotoMath{
-  width:70px;
-}
-.inputBoxMath1{
-  font-size:12px;
-}
-=======
-  }
->>>>>>> 0a4e6ddeaa28c45ad1aaec6710a8d150f678f61f
-}
 
 
 h1.instructions{
@@ -60,18 +38,19 @@ h1.instructions{
     background-color: #F0B835;
     margin: 0;
     padding: 0;
+    border-top:1px solid black;
     border-bottom:1px solid black;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content:space-around;
+    align-content:flex-start;
 }
 
-li{
-   float:right;
-   /*order: 1 3 2 4;*/
-   flex-basis:auto;
 
+
+.navFont{
+  font-size:40px;
 }
 
 .App {
@@ -98,34 +77,57 @@ margin:10px;
 }
 
 @media only screen and (max-width: 500px) {
+#smallPhotoMath{
+  width:70px;
+}
+.textAreaHome{
+  font-size:15pt;
+  max-height:20%;
+  flex-direction: column;
+
 
 }
+.navFont{
+  font-size:20px;
+  }
 
+  .title{
+  font-size:60px;
+  }
+
+  .nav{
+    flex-direction: column;
+  }
+
+  
+}
+
+
+/*container for inputs on Home Page*/
+.inputForm{
+margin-left:30%;
+margin-right:30%;
+display:flex;
+
+}
+/*
+input (text) area for  lit 2, math 1*/
 .inputSpellPicture {
-  width:200px;
-  height:50px;
+  max-width:200px;
+  max-height:50px;
   font-size:30pt;
   color:blue;
   margin-bottom:10px;
   text-align: center;
 }
-
-
-.inputBoxMath1{
-float:left;
-
-}
-
-.homePageInput{
-position:center;
-margin:auto;
-}
-
-/*div for input form on home page*/
-.inputForm{
-margin-left:30%;
-margin-top:10%;
-
+/*
+input (text) area for home page*/
+.textAreaHome {
+  font-size:15pt;
+  color:black;
+  border-radius:10px;
+  flex-direction: row;
+  
 }
 
 
@@ -146,16 +148,9 @@ margin-top:10%;
 
 /*
 css conditional styling for state change 'selected'*/
-<<<<<<< HEAD
-/*.selected{
-  background-color: lightblue;
-  border: 2px solid darkblue;
-}*/
-=======
 .selected{
   background-color: #FE491A;
 }
->>>>>>> 0a4e6ddeaa28c45ad1aaec6710a8d150f678f61f
 
 
 
@@ -208,8 +203,18 @@ ________________________________________________________________________________
   padding:20px;
   margin:10px;
   margin-left:5%;
+  border:6px solid transparent;
 }
 
+@keyframes fadeIn {
+	0% { opacity: 0 }
+	100% { opacity: 1 }
+}
+
+.fadeIn {
+	animation-name: fadeIn;
+	opacity: 1;
+}
 
 /*container for Lit*/
 .container{
@@ -229,8 +234,23 @@ ________________________________________________________________________________
 }
 
 
+.inputBoxMath1{
+float:left;
 
+}
 
+  .smallBoxAboutPage {
+    border:1px solid lightslategrey;
+    border-radius: 10px;
+    border-width:3px;
+    padding:10px;
+    margin-left:20%;
+    margin-top:5%;
+    max-width:60%;
+    max-height:100%;
+    overflow:auto;
+    text-align:left;
+  }
 /*this is still inside main container*/
   .smallBox1withBorderLit2 {
     background-color: white;
@@ -241,6 +261,18 @@ ________________________________________________________________________________
     margin-left:25%;
     margin-top:5%;
     max-width:50%;
+  }
+
+    .smallBoxDataPage {
+    background-color: white;
+    border:1px solid lightslategrey;
+    border-radius: 10px;
+    border-width:3px;
+    padding:10px;
+    margin-left:20%;
+    margin-top:5%;
+    max-width:60%;
+    text-align:left;
   }
 
  .scoreCardMath2{
@@ -291,7 +323,7 @@ ________________________________________________________________________________
     border-radius: 10px;
     border-width:3px;
     padding:10px;
-    max-width:40%;
+    width:40%;
     margin: 0 auto;
 }
 
@@ -377,6 +409,12 @@ a {
   text-decoration:none;
   color:white;
 }
+
+p > a {
+  color:black;
+}
+
+
 .audioButton{
   background: transparent;
   border: none;

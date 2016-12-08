@@ -109,7 +109,7 @@ axios.post('http://35.163.164.137/api/scores/', {
         correct:false,
         score:0,
         negativeScore:0,
-        numberOfAttempts:0,
+        attempts:0,
         totalTime:0
  
   })
@@ -213,6 +213,9 @@ render() {
             
   
             </div>
+
+            {this.props.children}
+
                <div className="containerMath">
                  <InputBox
                     itemName={this.state.itemName}
@@ -267,7 +270,7 @@ class InputBox extends Component{
 class ScoreCard extends Component{
     render(){
         return(
-            <div className="smallBox1withBorder">
+           <div className="smallBox1withBorder">
                 <h3>Number Correct: {this.props.score}</h3>
                 <h3>Number of Attempts: {this.props.attempts}</h3>
                 <h3 className="success">{this.props.correct ? "Success! Awesome!":"Keep trying"}</h3>
@@ -275,6 +278,15 @@ class ScoreCard extends Component{
         )
     }
 }
+
+
+
+
+
+
+
+
+
 
 class Photos extends Component {
 render(){

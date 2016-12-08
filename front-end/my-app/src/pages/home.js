@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../index_2.css';
-import { Link } from 'react-router';
 import Popup from 'react-popup';
 
 
@@ -38,48 +37,55 @@ this.setState({
   
 
   submitName(e){
-        e.preventDefault();
-      Popup.alert('Please click a link to get started!');
-      localStorage.setItem('student_name', JSON.stringify(this.state.student_name))
-      localStorage.setItem('student_ID', this.state.student_ID)
-   
-   console.log(this.state.student_name);
-      console.log(this.state.student_ID);
+            e.preventDefault();
+            Popup.alert('Please click a link to get started!');
+            localStorage.setItem('student_name', JSON.stringify(this.state.student_name))
+            localStorage.setItem('student_ID', this.state.student_ID)
+      
+            console.log(this.state.student_name);
+            console.log(this.state.student_ID);
 
   }
 
 render() {
  
         return (
-      <div className="homeBody">
-            <div className="App-header">
+     
+            <div className="App">
+
+               <div className="App-header">
             
                   <h1 className="title">fun! game!</h1>
        
             </div>
-        
-             <ul className='nav'>
-                  <li><h1><Link to="/literacy1">Literacy 1</Link></h1></li>
-                  <li><h1><Link to="/literacy2">Literacy 2</Link></h1></li>
-                  <li><h1><Link to="/numeracy1">Numeracy 1</Link></h1></li>
-                  <li><h1><Link to="/numeracy2">Numeracy 2</Link></h1></li>
-                  <li><h1><Link to="/dataPage">Data</Link></h1></li>
-                  <li><h1><Link to="/about">About</Link></h1></li>
-             </ul>
+
+            {this.props.children}
                
-               <Popup
+                   <Popup
                   className="popup"
                    closeBtn={false}
                 
-            />
+                  />
+             
 
             <div className="inputForm">
-            <form className="homePageInput" onSubmit={(e) => this.submitName(e)}>
-                  <label><h4>Name: </h4></label><input type="text" className="inputSpellPicture" name="student_name" value={this.state.student_name} onChange={this.handleChangeName}></input>
-                  <label><h4>ID: </h4></label><input type="text" className="inputSpellPicture" name="student_ID" value={this.state.student_ID} onChange={this.handleChangeID}></input>
-           
-                    <input type="submit" value="Submit" />
+            <form onSubmit={(e) => this.submitName(e)}>
+
+                  <label for="student_name"><h3>Name: </h3>
+                          <input type="text" className="textAreaHome" name="student_name" placeholder="name" value={this.state.student_name} onChange={this.handleChangeName}></input>
+                  
+                  </label>
+                  
+                  <label for="student_ID"><h3>Student ID: </h3>
+                        <input type="text" className="textAreaHome" name="student_ID" value={this.state.student_ID} onChange={this.handleChangeID}></input>
+                  
+                  </label>     
+                  
+                  <input type="submit" value="Submit" />
             </form>
+
+          
+
             </div>
        
        
