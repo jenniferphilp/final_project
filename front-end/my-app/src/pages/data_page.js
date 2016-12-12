@@ -41,7 +41,7 @@ displayTwo(e){
       e.preventDefault();
 
       let search=this.state.newID;
-      axios.get('http://localhost:8080/api/scores/'+search).then((response)=> {
+      axios.get('http://35.163.164.137/api/scores/'+search).then((response)=> {
             console.log(response.data);
             this.setState({
               data: response.data
@@ -53,7 +53,7 @@ displayTwo(e){
             console.log(error);
           })
 //gets the name of the student from Users table so it can be displayed 
-          axios.get('http://localhost:8080/api/users/'+search).then((nameResponse)=>{
+          axios.get('http://35.163.164.137/api/users/'+search).then((nameResponse)=>{
               console.log(nameResponse.data);
               this.setState({
                 name:nameResponse.data
