@@ -11,7 +11,7 @@ import NavBar from './pages/nav_bar';
 import Home from './pages/home';
 
 
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, browserHistory } from 'react-router';
 // import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import './index_2.css';
 

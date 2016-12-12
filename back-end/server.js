@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 8080;
 
 
 // COMMENT THIS OUT TO RUN REACT APP ON LOCAL HOST 3000
- app.use(express.static(__dirname + '/build'));
+//  app.use(express.static(__dirname + '/build'));
 
 
 
@@ -25,11 +25,12 @@ app.use(function(req, res, next) {
 });
 
 mongoose.Promise = global.Promise; 
+
 // connect to local host
-// mongoose.connect('mongodb://localhost/data/db/');
+mongoose.connect('mongodb://localhost/data/db/');
 
 //connect to mLab using name (Jen) and password (argyle)
-mongoose.connect('mongodb://Jen:argyle@ds113628.mlab.com:13628/final_project');
+// mongoose.connect('mongodb://Jen:argyle@ds113628.mlab.com:13628/final_project');
 
 //Seed our users
 const usersToSeed = require('./seeds/Users');
@@ -86,40 +87,6 @@ app.use('/api/scores', Scores_routes);
 // 	percent: 90,
 // 	totalTime: 100,
 //     });
-
-// // save the newly created user in the database
-// newScore.save((err) => {
-//     if (err) {
-//         console.log(err)
-//     } else {
-//         console.log('Score created!');
-//     }
-// });
-
-// let newUser = Users({
-//     student_name: "Bob",
-// 	student_ID: 2345
-//     });
-
-// // save the newly created user in the database
-// newUser.save((err) => {
-//     if (err) {
-//         console.log(err)
-//     } else {
-//         console.log('User created!');
-//     }
-// });
-
-
-// look for all Users in the database
-// Users.find({}, (err, users) => {
-//     if (err) {
-//         console.log(err);
-//     } else {
-//         //returns an array of objects
-//         console.log(users);
-//     }
-// });
 
 
 

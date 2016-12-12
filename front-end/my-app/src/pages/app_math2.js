@@ -196,13 +196,18 @@ if (index === 0){
 handleSave(e){
 e.preventDefault();
 
-axios.post('http://35.163.164.137/api/scores/', {
+// http://35.163.164.137
+
+axios.post('http://localhost:8080/api/scores/', {
     // student_ID: this.state.student_ID,
   //this is saved from home page using local storage
     student_ID: this.state.student_ID,
     gameType: "Numeracy 2",
-    percent:((this.state.score)/(this.state.numberOfAttempts)*100),
+    percent:((this.state.score)/(this.state.attempts)*100),
+    correct:this.state.score,
+    attempts:this.state.attempts,
     totalTime: this.state.totalTime
+  
 
     })
 

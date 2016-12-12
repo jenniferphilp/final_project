@@ -64,6 +64,14 @@ class App extends Component {
 };
 
 
+componentDidMount(){
+    this.playTimer();
+    this.generateRandomNumber();
+}
+
+componentWillUnmount(){
+      clearInterval(this.timer);
+}
 //problem of student saving over and over... put setTimeOut on handleSave
 handleSave(e){
 e.preventDefault();
@@ -101,20 +109,6 @@ axios.post('http://35.163.164.137/api/scores/', {
  
   })
 }
-
-
-
-
-
-
-componentDidMount(){
-    this.playTimer();
-}
-
-componentWillUnmount(){
-      clearInterval(this.timer);
-}
-
 
 
 playTimer(tick){
@@ -165,10 +159,10 @@ this.randomize();
     })
 }
 
-componentWillMount(){
-    this.randomize ();
+// componentWillMount(){
+//     this.randomize ();
    
-}
+// }
 
 
 //need ONLY the letterBox selected to true; all else need to be false

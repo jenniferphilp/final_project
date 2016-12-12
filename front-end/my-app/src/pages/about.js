@@ -1,25 +1,9 @@
 import React, { Component } from 'react';
 import '../index_2.css';
-import { Link } from 'react-router';
-import axios from 'axios';
+
 
 
 class About extends Component {
-
-  
-  constructor(props) {
-    super(props);
-
-
-    this.state = {
-
-         };
-
-
-//bind functions here
-
-   };
-
 
 
 render() {
@@ -38,9 +22,10 @@ render() {
          <div className="smallBoxAboutPage">
          
          <h1>Summary</h1>
-         <p>This app was built with ReactJS and a Node server using the Express module. It is integrated with a MongoDB database, hosted by mLab.</p>
+         <p>This app was built with ReactJS and a Node server using the Express module. It is integrated with a MongoDB database, hosted by mLab. The site was deployed using an Amazon AWS EC2 instance. </p>
 
-        <p>This app consists of 4 games for early learners and is appropriate for the Ontario Kindergarten curriculum. It is separated into two branches, literacy and numeracy.</p>
+        <p>The site consists of two games per branch - literacy and numeracy - and supports the Ontario Kindergarten program curriculum. 
+       It is suitable for ages 4 and up. </p>
 
         <p>This application has been designed for desktop, tablet, and mobile use.</p>
          

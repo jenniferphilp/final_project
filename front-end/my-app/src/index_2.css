@@ -50,7 +50,7 @@ h1.instructions{
 
 
 .navFont{
-  font-size:40px;
+  font-size:30px;
 }
 
 .App {
@@ -115,7 +115,7 @@ input (text) area for  lit 2, math 1*/
 .inputSpellPicture {
   max-width:200px;
   max-height:50px;
-  font-size:30pt;
+  font-size:25pt;
   color:blue;
   margin-bottom:10px;
   text-align: center;
@@ -323,7 +323,7 @@ float:left;
     border-radius: 10px;
     border-width:3px;
     padding:10px;
-    width:40%;
+    width:45%;
     margin: 0 auto;
 }
 
@@ -382,6 +382,11 @@ float:left;
  padding:4px;
  
 }
+.btn{
+  margin:5px;
+  padding:5px;
+
+}
 
 .btn-circle {
  width: 100px;
@@ -428,4 +433,8 @@ p > a {
 
 .litTwoAudio{
 color:#FE491A;
+}
+
+.nameDataPage{
+  text-align:left;
 }

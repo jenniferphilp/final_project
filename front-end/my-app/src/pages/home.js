@@ -71,7 +71,7 @@ render() {
             <div className="inputForm">
             <form onSubmit={(e) => this.submitName(e)}>
 
-                  <label for="student_name"><h3>Name: </h3>
+                  <label htmlFor="student_name"><h3>Name: </h3>
                           <input type="text" className="textAreaHome" name="student_name" placeholder="name" value={this.state.student_name} onChange={this.handleChangeName}></input>
                   
                   </label>
@@ -95,8 +95,7 @@ render() {
       }
 }
 
-
-      export default Home; 
+   export default Home; 
 
 
 //       onChangeName(e){

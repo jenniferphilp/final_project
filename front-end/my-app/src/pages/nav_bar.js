@@ -21,6 +21,7 @@ return (
                   <li ><h1 className='navFont'><Link to="/numeracy2">Numeracy 2</Link></h1></li>
                   <li ><h1 className='navFont'><Link to="/about">About</Link></h1></li>
                   <li ><h1 className='navFont'><Link to="/data">Data</Link></h1></li>
+                  <li ><h1 className='navFont'><Link to="/">Home</Link></h1></li>
              </ul>
                
   

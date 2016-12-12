@@ -61,6 +61,15 @@ class App extends Component {
 
   };
 
+componentDidMount(){
+    this.playTimer();
+    this.generateRandomNumber();
+   
+}
+
+componentWillUnmount(){
+      clearInterval(this.timer);
+}
 
 //play Instruction
   playInstruction(e, ref){
@@ -77,6 +86,8 @@ class App extends Component {
         player.play();
   
 }
+
+
 generateRandomNumber (randomNumber) {
    
    this.createHint();
@@ -89,12 +100,13 @@ generateRandomNumber (randomNumber) {
         
          })
 
-     if (this.state.correct){
-          this.setState({
-          correct:false
-        })
+// I don't know why I have this in! 
+    //  if (this.state.correct){
+    //       this.setState({
+    //       correct:false
+    //     })
       
-    }
+    // }
 
 
   }
@@ -132,7 +144,7 @@ handleTextChange(e){
     this.setState({
       correct:true,
       score:this.state.score + 1, 
-      newText:" ",
+      // newText:" ",
       // newText:this.state.newText,
       spacesForHint:this.state.spacesForHint,
       numberOfAttempts: this.state.numberOfAttempts+1,
@@ -147,7 +159,7 @@ handleTextChange(e){
   else if (this.state.newText !== this.state.imageText[this.state.randomImageIndex]){
     this.setState({
       correct:false,
-      newText:" ",
+      // newText:" ",
       negativeScore:this.state.negativeScore - 1,
       numberOfAttempts: this.state.numberOfAttempts+1
 
@@ -161,7 +173,9 @@ handleTextChange(e){
 handleSave(e){
 e.preventDefault();
 
-axios.post('http://35.163.164.137/api/scores/', {
+// http://35.163.164.137
+
+axios.post('http://localhost:8080/api/scores/', {
     // student_ID: this.state.student_ID,
   //this is saved from home page using cookies
     //
@@ -195,13 +209,7 @@ axios.post('http://35.163.164.137/api/scores/', {
 }
 
 
-componentDidMount(){
-    this.playTimer();
-}
 
-componentWillUnmount(){
-      clearInterval(this.timer);
-}
 
 
 playTimer(tick){
@@ -345,8 +353,7 @@ class SpellingChecker extends Component{
        return(
        <div className="smallBox1withBorderLit2">
      
-               <h3 className="success">{this.props.correct && this.props.newText !== "" ? "Success!":null}</h3>
-               <h3 className="keepTrying">{!this.props.correct && this.props.newText ==="" ? "Keep Trying!":null}</h3>
+               <h3 className="success">{this.props.correct ? "Success!":"Keep Trying"}</h3>
                <h3 className="score">Number Correct: {this.props.score}</h3>
               <h3 className="score">Number of Attempts: {this.props.numberOfAttempts}</h3>
            
