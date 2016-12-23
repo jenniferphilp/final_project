@@ -22,7 +22,7 @@ render() {
          <div className="smallBoxAboutPage">
          
          <h1>Summary</h1>
-         <p>This app was built with ReactJS and a Node server using the Express module. It is integrated with a MongoDB database, hosted by mLab. The site was deployed using an Amazon AWS EC2 instance. </p>
+         <p>This app was built with ReactJS (a JavaScript libray for user interfaces) and a Node server using the Express module. It is integrated with a MongoDB database, hosted by mLab. The site was deployed using an Amazon AWS EC2 instance. </p>
 
         <p>The site consists of two games per branch - literacy and numeracy - and supports the Ontario Kindergarten program curriculum. 
        It is suitable for ages 4 and up. </p>

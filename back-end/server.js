@@ -11,9 +11,6 @@ const PORT = process.env.PORT || 8080;
  app.use(express.static(__dirname + '/build'));
 
 
-
-// app.use(express.static('public'));
-
 //middleware for changing request or response object before getting handled by our app
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -44,32 +41,6 @@ db.once('open', () => {
 });
 
 
-
-
-
-
-
-
-
-//handles the post request on the client side (submitting data for users)
-// app.post('/users', (req, res)=>{
-// db.collection('users').save(req.body, (err, result)=> {
-// 	if (err) return console.log(err)
-
-// 	console.log('saved to database')
-// 	res.redirect('/')
-// 	})
-// })
-
-// app.post('/users', (req, res)=>{
-// db.collection('scores').save(req.body, (err, result)=> {
-// 	if (err) return console.log(err)
-
-// 	console.log('score saved to database')
-// 	res.redirect('/')
-// 	})
-// })
-
 //import endpoints...
 const Users_routes = require('./routes/Users');
 const Scores_routes = require('./routes/Scores'); 
@@ -79,15 +50,6 @@ const Scores_routes = require('./routes/Scores');
 //Use our imported routers whenever a requests starts with /api/users or /api/scores
 app.use('/api/users', Users_routes);
 app.use('/api/scores', Scores_routes);
-
-//creates a new User or Score... be sure to comment out!
-// let newScore = Scores({
-//     student_ID: 1234,
-// 	gameType: "Numeracy 1",
-// 	percent: 90,
-// 	totalTime: 100,
-//     });
-
 
 
 app.listen(PORT, () => {

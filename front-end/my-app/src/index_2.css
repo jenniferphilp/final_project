@@ -14,7 +14,16 @@ body {
   border:1px solid grey
 }
 
-/*//need to select all the h1's that have an a tag*/
+/*submit button home*/
+.submit{
+  max-height:40px;
+  padding:10px;
+  max-width:90%;
+  margin:25px;
+  border-radius:10px;
+  align-self:flex-end;
+}
+
 li a {
   color:black;
 }
@@ -76,6 +85,7 @@ margin:10px;
 
 }
 
+/*cell phone resize*/
 @media only screen and (max-width: 500px) {
 #smallPhotoMath{
   width:70px;
@@ -83,14 +93,8 @@ margin:10px;
 .textAreaHome{
   font-size:15pt;
   max-height:20%;
-  flex-direction: column;
-
-
+ 
 }
-.navFont{
-  font-size:20px;
-  }
-
   .title{
   font-size:60px;
   }
@@ -99,15 +103,31 @@ margin:10px;
     flex-direction: column;
   }
 
-  
+  .submit{
+    width:60%;
+  }
+
 }
 
+@media only screen and (max-width: 800px) {
+  .navFont{
+    font-size:20px;
+  }
+  .inputForm{
+    flex-direction:column;
+    justify-content: flex-start;
+  }
+}
 
 /*container for inputs on Home Page*/
 .inputForm{
-margin-left:30%;
-margin-right:30%;
+  margin-left:auto;
+  margin-right:auto;
+/*margin-left:20%;
+margin-right:30%;*/
 display:flex;
+flex-wrap:wrap;
+justify-content:center;
 
 }
 /*
@@ -126,7 +146,7 @@ input (text) area for home page*/
   font-size:15pt;
   color:black;
   border-radius:10px;
-  flex-direction: row;
+
   
 }
 

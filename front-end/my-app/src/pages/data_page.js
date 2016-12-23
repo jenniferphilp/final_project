@@ -24,7 +24,7 @@ this.handleChange=this.handleChange.bind(this);
 
 
 
-//all student_name values in Mongo entered in lowercase
+
 handleChange(e) {
   let submittedText = e.target.value;
 
@@ -72,14 +72,13 @@ let student_name=this.state.name[0].student_name;
 
 let dataArray=this.state.data.map((item, index)=> {
     return(<div className="smallBoxDataPage" key={index}>
-           <h3>Date: {this.state.data[index].createdAt.slice(0,10)}</h3><br></br>
-            Time: {this.state.data[index].createdAt.slice(11, 13)}:{this.state.data[index].createdAt.slice(14,16)}<br></br>
-            Student ID: {this.state.data[index].student_ID}<br></br>
-            Game Type: {this.state.data[index].gameType}<br></br>
-            Percent: {this.state.data[index].percent}%<br></br>
-            Number Correct: {this.state.data[index].correct}<br></br>
-            Number Attempted: {this.state.data[index].attempts}<br></br>
-            Total Time on Task: {this.state.data[index].totalTime} seconds
+           <h3>Date: {item.createdAt.slice(0,10)}</h3><br></br>
+            Student ID: {item.student_ID}<br></br>
+            Game Type: {item.gameType}<br></br>
+            Percent: {item.percent}%<br></br>
+            Number Correct: {item.correct}<br></br>
+            Number Attempted: {item.attempts}<br></br>
+            Total Time on Task: {item.totalTime} seconds
   </div>  
     )}
 

@@ -167,7 +167,7 @@ handleAnswer(e){
         this.setState({
             submittedAnswer:submitted
 })
-} //this doesn't work... e.target.value not recognized by form???' must do this with 2 methods. .... 
+} 
  
 
 checkAnswer(e){
@@ -203,11 +203,7 @@ playSong(e, ref){
   
 }
 
-
-
 render() {
-
- 
 
         return (
   
@@ -283,15 +279,6 @@ class ScoreCard extends Component{
         )
     }
 }
-
-
-
-
-
-
-
-
-
 
 class Photos extends Component {
 render(){

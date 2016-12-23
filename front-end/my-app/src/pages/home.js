@@ -41,9 +41,6 @@ this.setState({
             Popup.alert('Please click a link to get started!');
             localStorage.setItem('student_name', JSON.stringify(this.state.student_name))
             localStorage.setItem('student_ID', this.state.student_ID)
-      
-            console.log(this.state.student_name);
-            console.log(this.state.student_ID);
 
   }
 
@@ -76,12 +73,12 @@ render() {
                   
                   </label>
                   
-                  <label for="student_ID"><h3>Student ID: </h3>
+                  <label htmlFor="student_ID"><h3>Student ID: </h3>
                         <input type="text" className="textAreaHome" name="student_ID" value={this.state.student_ID} onChange={this.handleChangeID}></input>
                   
                   </label>     
                   
-                  <input type="submit" value="Submit" />
+                  <input type="submit" className="submit" value="Submit" />
             </form>
 
           
@@ -96,18 +93,3 @@ render() {
 }
 
    export default Home; 
-
-
-//       onChangeName(e){
-//     this.setState({
-//         student_name: e.target.value
-//     })
-//  }
-
-// onChangeID(e){
-//     let id = Number(e.target.value, 10);
-//      console.log(id)
-//   this.setState({
-//         student_ID: id
-//     })
-//  }

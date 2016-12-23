@@ -4,13 +4,6 @@ import axios from 'axios';
 
 import '../index_2.css';
 
-//two divs will appear --> randomly selected images and random number of each
-// div will have a shadow and move slightly when hovered... border will go dark as well
-//instructions will also be random: "Which group has MORE?" "Which group has LESS?"
-//once selected --> compare random number from 1st group to random number from second...
-
-//also have to deal with TIES
-
 import baby from '../img/baby.png';
 import car from '../img/car.png';
 import mouse from '../img/mouse.png';
@@ -394,10 +387,6 @@ render() {
         
         return style
     }
-
-//   border:1px solid lightslategrey;
-//   border-radius: 50px;
-//   border-width:6px;
 
 
     return(

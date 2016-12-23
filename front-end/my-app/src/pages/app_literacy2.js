@@ -100,15 +100,6 @@ generateRandomNumber (randomNumber) {
         
          })
 
-// I don't know why I have this in! 
-    //  if (this.state.correct){
-    //       this.setState({
-    //       correct:false
-    //     })
-      
-    // }
-
-
   }
  
 
@@ -207,10 +198,6 @@ axios.post('http://35.163.164.137/api/scores/', {
  
   })
 }
-
-
-
-
 
 playTimer(tick){
     // e.preventDefault();

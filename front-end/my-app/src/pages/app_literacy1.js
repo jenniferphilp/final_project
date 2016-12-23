@@ -76,7 +76,7 @@ componentWillUnmount(){
 handleSave(e){
 e.preventDefault();
 
-//CHANGE BACK TO HOSTED SITE BEFORE DEPLOYMENT
+//CHANGE BACK TO HOSTED SITE BEFORE DEPLOYMENT //http://35.163.164.137/
 axios.post('http://35.163.164.137/api/scores/', {
     // student_ID: this.state.student_ID,
   //this is saved from home page using local storage
